@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens for Retail Intelligence Cloud: light enterprise theme --
+ * light-grey page background, white cards with a restrained border, deep
+ * navy/charcoal text, a restrained blue primary accent, and semantic
+ * red/amber/green severity colors. No gradients, no glow effects, no
+ * oversized headings.
+ */
+:root {
+  --ric-page-bg: #f7f8fa;
+  --ric-card-bg: #ffffff;
+  --ric-border: #e2e5eb;
+  --ric-text-primary: #1a2233;
+  --ric-text-secondary: #5b6472;
+  --ric-primary: #2f5fdb;
+  --ric-primary-hover: #26509f;
+  --ric-severity-critical: #d32f2f;
+  --ric-severity-high: #f57c00;
+  --ric-severity-medium: #b58900;
+  --ric-severity-low: #2e7d32;
+  --ric-severity-neutral: #6b7280;
+  --ric-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--ric-page-bg);
+  --color-foreground: var(--ric-text-primary);
+  --font-sans: var(--ric-font-sans);
+}
+
+body {
+  background: var(--ric-page-bg);
+  color: var(--ric-text-primary);
+  font-family: var(--ric-font-sans);
+}

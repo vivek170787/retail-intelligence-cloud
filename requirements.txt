@@ -1,0 +1,11 @@
+pandas
+numpy
+pytest
+openai
+openai-agents==0.22.3
+python-dotenv
+streamlit
+plotly
+fastapi
+uvicorn
+httpx

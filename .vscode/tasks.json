@@ -1,0 +1,104 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Backend: Install Python Dependencies",
+      "type": "shell",
+      "command": "python",
+      "args": ["-m", "pip", "install", "-r", "requirements.txt"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: Install Dependencies",
+      "type": "shell",
+      "command": "npm",
+      "args": ["install"],
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: Start FastAPI (uvicorn)",
+      "type": "shell",
+      // Invoked via `python -m uvicorn` (not the bare `uvicorn` command) so
+      // this only ever depends on python.exe being on PATH -- no reliance
+      // on a separately-generated console-script shim.
+      "command": "python",
+      "args": ["-m", "uvicorn", "api.main:app", "--reload", "--port", "8000"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "fullstack" },
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*Will watch for changes.*$",
+          "endsPattern": "^.*Application startup complete\\.$"
+        }
+      }
+    },
+    {
+      "label": "Frontend: Start Next.js Dev Server",
+      "type": "shell",
+      // Invoked via `node node_modules/next/dist/bin/next dev` rather than
+      // `npm run dev` -- on Windows, npm's generated .cmd/.ps1 "next" shim
+      // mis-resolves its own install path when the project sits under a
+      // directory containing an `&` (reproduced and confirmed in this
+      // repo's own path, e.g. "...\Vivek & Jeha\..."), raising a spurious
+      // `Cannot find module '...\next\dist\bin\next'` error. Calling node
+      // directly skips the broken shim entirely and works regardless of
+      // the path. See the README's "Local startup commands" section.
+      "command": "node",
+      "args": ["node_modules/next/dist/bin/next", "dev"],
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated", "group": "fullstack" },
+      "problemMatcher": {
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*Next\\.js.*$",
+          "endsPattern": "^.*Ready in.*$"
+        }
+      }
+    },
+    {
+      "label": "Start Full Stack (backend + frontend)",
+      "dependsOn": ["Backend: Start FastAPI (uvicorn)", "Frontend: Start Next.js Dev Server"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: Run Tests (pytest)",
+      "type": "shell",
+      "command": "python",
+      "args": ["-m", "pytest", "-q"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": { "kind": "test", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: Lint",
+      "type": "shell",
+      "command": "node",
+      "args": ["node_modules/eslint/bin/eslint.js", "app", "components", "lib", "--max-warnings=0"],
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: Type Check",
+      "type": "shell",
+      "command": "node",
+      "args": ["node_modules/typescript/lib/tsc.js", "--noEmit", "-p", "tsconfig.json"],
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "problemMatcher": []
+    }
+  ]
+}

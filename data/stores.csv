@@ -1,0 +1,11 @@
+store_id,store_name,city,region,store_type
+ST-001,Mumbai Flagship,Mumbai,West,Flagship
+ST-002,Delhi Flagship,Delhi,North,Flagship
+ST-003,Bengaluru High Street,Bengaluru,South,High Street
+ST-004,Chennai Flagship,Chennai,South,Flagship
+ST-005,Kolkata Flagship,Kolkata,East,Flagship
+ST-006,Hyderabad Express,Hyderabad,South,Express
+ST-007,Pune Mall Outlet,Pune,West,Mall Outlet
+ST-008,Ahmedabad Flagship,Ahmedabad,West,Flagship
+ST-009,Jaipur Flagship,Jaipur,North,Flagship
+ST-010,Lucknow Mall Outlet,Lucknow,North,Mall Outlet

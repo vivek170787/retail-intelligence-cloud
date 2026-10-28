@@ -1,0 +1,61 @@
+sku,product_name,category,brand,selling_price,cost_price
+SKU-APP-0001,UrbanThread Crew T-Shirt,Apparel,UrbanThread,2749.5,1405.61
+SKU-FOO-0002,PaceRunner Slip-On Loafers,Footwear,PaceRunner,1613.97,1025.14
+SKU-ELE-0003,VoltEdge USB-C Charger,Electronics,VoltEdge,5946.45,2720.2
+SKU-BEA-0004,PureBloom Vitamin C Serum,Beauty,PureBloom,1386.05,632.92
+SKU-HOM-0005,NestWell LED Desk Lamp,Home,NestWell,3370.96,1976.18
+SKU-APP-0006,CottonLane Polo Shirt,Apparel,CottonLane,2307.87,1505.56
+SKU-FOO-0007,StrideOn Canvas Sneakers,Footwear,StrideOn,5187.84,2775.82
+SKU-ELE-0008,NexaTech Bluetooth Speaker,Electronics,NexaTech,12477.0,6664.57
+SKU-BEA-0009,GlowLab Shampoo Bar,Beauty,GlowLab,466.61,308.84
+SKU-HOM-0010,LumenHome Ceramic Mug Set,Home,LumenHome,3742.25,2185.69
+SKU-APP-0011,StyleHaus Slim Jeans,Apparel,StyleHaus,2199.92,1446.12
+SKU-FOO-0012,UrbanSole Hiking Shoes,Footwear,UrbanSole,2152.73,1006.16
+SKU-ELE-0013,NexaTech Webcam,Electronics,NexaTech,4329.53,2034.65
+SKU-BEA-0014,PureBloom Face Moisturizer,Beauty,PureBloom,1104.28,622.1
+SKU-HOM-0015,LumenHome Throw Blanket,Home,LumenHome,2070.34,1040.09
+SKU-APP-0016,NorthFit Slim Jeans,Apparel,NorthFit,2365.48,1165.67
+SKU-FOO-0017,PaceRunner Canvas Sneakers,Footwear,PaceRunner,3772.56,1952.25
+SKU-ELE-0018,NexaTech Laptop Backpack,Electronics,NexaTech,4755.25,3053.24
+SKU-BEA-0019,GlowLab Vitamin C Serum,Beauty,GlowLab,2098.06,1366.39
+SKU-HOM-0020,CraftRoom Scented Candle,Home,CraftRoom,656.78,445.48
+SKU-APP-0021,DenimWorks Wool Sweater,Apparel,DenimWorks,1215.62,698.75
+SKU-FOO-0022,TrailBlaze Canvas Sneakers,Footwear,TrailBlaze,2588.28,1324.31
+SKU-ELE-0023,PixelWave Laptop Backpack,Electronics,PixelWave,7930.95,5349.07
+SKU-BEA-0024,AuraCare Matte Lipstick,Beauty,AuraCare,742.47,519.27
+SKU-HOM-0025,CraftRoom Ceramic Mug Set,Home,CraftRoom,3863.39,2570.22
+SKU-APP-0026,CottonLane Hooded Jacket,Apparel,CottonLane,2896.03,1608.86
+SKU-FOO-0027,StrideOn Sport Sandals,Footwear,StrideOn,3288.72,2298.92
+SKU-ELE-0028,PixelWave USB-C Charger,Electronics,PixelWave,11300.51,5117.66
+SKU-BEA-0029,GlowLab Body Lotion,Beauty,GlowLab,2239.77,1428.34
+SKU-HOM-0030,LumenHome Ceramic Mug Set,Home,LumenHome,1713.78,838.96
+SKU-APP-0031,UrbanThread Flannel Shirt,Apparel,UrbanThread,3417.48,2188.86
+SKU-FOO-0032,StrideOn Slip-On Loafers,Footwear,StrideOn,2789.67,1700.97
+SKU-ELE-0033,NexaTech Bluetooth Speaker,Electronics,NexaTech,5360.75,2628.84
+SKU-BEA-0034,GlowLab Sunscreen SPF50,Beauty,GlowLab,978.35,445.02
+SKU-HOM-0035,LumenHome Scented Candle,Home,LumenHome,1462.45,746.17
+SKU-APP-0036,DenimWorks Slim Jeans,Apparel,DenimWorks,847.4,484.29
+SKU-FOO-0037,StrideOn Hiking Shoes,Footwear,StrideOn,5594.01,2696.86
+SKU-ELE-0038,CircuitPro USB-C Charger,Electronics,CircuitPro,2813.55,1637.26
+SKU-BEA-0039,AuraCare Vitamin C Serum,Beauty,AuraCare,2339.06,1494.23
+SKU-HOM-0040,NestWell LED Desk Lamp,Home,NestWell,1798.48,1256.76
+SKU-APP-0041,NorthFit Polo Shirt,Apparel,NorthFit,3207.88,1805.62
+SKU-FOO-0042,PaceRunner Canvas Sneakers,Footwear,PaceRunner,1383.16,629.7
+SKU-ELE-0043,NexaTech USB-C Charger,Electronics,NexaTech,3485.65,1630.41
+SKU-BEA-0044,GlowLab Vitamin C Serum,Beauty,GlowLab,400.65,183.44
+SKU-HOM-0045,LumenHome Ceramic Mug Set,Home,LumenHome,2739.83,1423.67
+SKU-APP-0046,StyleHaus Running Shorts,Apparel,StyleHaus,2162.78,1364.36
+SKU-FOO-0047,TrailBlaze Canvas Sneakers,Footwear,TrailBlaze,5706.72,3720.06
+SKU-ELE-0048,NexaTech Wireless Earbuds,Electronics,NexaTech,1981.56,1105.24
+SKU-BEA-0049,AuraCare Shampoo Bar,Beauty,AuraCare,1299.81,821.83
+SKU-HOM-0050,HearthCo Ceramic Mug Set,Home,HearthCo,2221.19,1187.95
+SKU-APP-0051,UrbanThread Running Shorts,Apparel,UrbanThread,1154.61,674.37
+SKU-FOO-0052,PaceRunner Sport Sandals,Footwear,PaceRunner,2099.93,1187.84
+SKU-ELE-0053,VoltEdge Power Bank,Electronics,VoltEdge,10656.87,7076.07
+SKU-BEA-0054,GlowLab Face Moisturizer,Beauty,GlowLab,1716.33,1004.31
+SKU-HOM-0055,HearthCo Ceramic Mug Set,Home,HearthCo,4656.61,3083.49
+SKU-APP-0056,CottonLane Cargo Pants,Apparel,CottonLane,2007.36,1010.58
+SKU-FOO-0057,TrailBlaze Running Shoes,Footwear,TrailBlaze,1986.82,895.14
+SKU-ELE-0058,CircuitPro Smartwatch,Electronics,CircuitPro,12102.52,7821.64
+SKU-BEA-0059,VelvetSkin Shampoo Bar,Beauty,VelvetSkin,1816.33,1149.06
+SKU-HOM-0060,CraftRoom Throw Blanket,Home,CraftRoom,1232.03,621.47
