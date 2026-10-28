@@ -125,6 +125,22 @@ class InventoryRiskEngine:
     def __init__(self, service=None, settings=None):
         self.service = service if service is not None else RetailDataService()
         self.settings = settings if settings is not None else InventoryRiskSettings.from_env()
+        # Per-SKU result caches. Callers like OrderFulfillmentEngine and
+        # CustomerExperienceEngine call get_product_inventory_analysis()/
+        # get_warehouse_availability() for the same SKU many times across a
+        # single catalog-wide scan (e.g. once per order, not once per unique
+        # SKU) -- these are pure functions of the already-cached, unchanging
+        # RetailDataService data, so memoizing them changes no computed
+        # value, only how many times it's recomputed. Lives for the engine
+        # instance's lifetime, matching RetailDataService's own cache.
+        self._sku_analysis_cache = {}
+        self._warehouse_metrics_cache = {}
+        # get_inventory_risks() (full catalog scan) is called independently
+        # by get_inventory_summary(), get_top_stockout_risks(),
+        # get_replenishment_recommendations(), and the dashboard/API routes
+        # -- none of them share results today. Cached per resolved
+        # reference_date, same reasoning as the caches above.
+        self._inventory_risks_cache = {}
 
     # ---- shared helpers ------------------------------------------------
     def _reference_date(self):
@@ -137,9 +153,14 @@ class InventoryRiskEngine:
         return parsed.max()
 
     def _warehouse_metrics(self, sku):
+        if sku in self._warehouse_metrics_cache:
+            return self._warehouse_metrics_cache[sku]
+
         df = self.service.get_warehouse_stock(sku)
         if df is None or len(df) == 0:
-            return {"warehouse_available": 0.0, "warehouse_inbound": 0.0, "by_warehouse": []}
+            result = {"warehouse_available": 0.0, "warehouse_inbound": 0.0, "by_warehouse": []}
+            self._warehouse_metrics_cache[sku] = result
+            return result
 
         safe = df.copy()
         on_hand = safe["on_hand_quantity"].fillna(0).clip(lower=0)
@@ -157,11 +178,13 @@ class InventoryRiskEngine:
                 "supplier_lead_time_days": None if pd.isna(lead_time) else float(lead_time),
             })
 
-        return {
+        result = {
             "warehouse_available": float(available.sum()),
             "warehouse_inbound": float(inbound.sum()),
             "by_warehouse": by_warehouse,
         }
+        self._warehouse_metrics_cache[sku] = result
+        return result
 
     def _analyze_sku(self, sku, reference_date=None):
         """Full observed/estimated/recommendation analysis for one SKU.
@@ -251,11 +274,17 @@ class InventoryRiskEngine:
 
     # ---- required public functions -------------------------------------
     def get_inventory_risks(self):
-        """Per-SKU risk assessment for every product in the catalog."""
-        products_df = self.service.get_products()
+        """Per-SKU risk assessment for every product in the catalog.
+        Memoized per resolved reference_date -- see _inventory_risks_cache
+        in __init__."""
         reference_date = self._reference_date()
+        if reference_date in self._inventory_risks_cache:
+            return self._inventory_risks_cache[reference_date]
+
+        products_df = self.service.get_products()
         results = [self._analyze_sku(sku, reference_date) for sku in products_df["sku"]]
         results.sort(key=lambda r: RISK_SEVERITY_ORDER.get(r["estimated"]["risk_level"], 99))
+        self._inventory_risks_cache[reference_date] = results
         return results
 
     def get_store_inventory_risks(self, store_id=None):
@@ -323,8 +352,15 @@ class InventoryRiskEngine:
         return results
 
     def get_product_inventory_analysis(self, sku):
-        """Full observed/estimated/recommendation analysis for a single SKU."""
-        return self._analyze_sku(sku)
+        """Full observed/estimated/recommendation analysis for a single SKU.
+        Memoized per SKU -- called with no reference_date override, so the
+        result is deterministic for the engine instance's lifetime (see
+        _sku_analysis_cache docstring in __init__)."""
+        if sku in self._sku_analysis_cache:
+            return self._sku_analysis_cache[sku]
+        result = self._analyze_sku(sku)
+        self._sku_analysis_cache[sku] = result
+        return result
 
     def get_warehouse_availability(self, sku):
         """Warehouse-only stock availability for a single SKU (validates

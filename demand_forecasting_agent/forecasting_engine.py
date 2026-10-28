@@ -276,6 +276,22 @@ class DemandForecastEngine:
         self.service = service if service is not None else RetailDataService()
         self.settings = settings if settings is not None else DemandForecastSettings.from_env()
         self._inventory_engine = inventory_engine
+        # Per-(sku, horizon_days, store_id) cache for forecast_demand(), the
+        # most expensive call here (includes a full backtest). Callers like
+        # OrderFulfillmentEngine's per-order demand context call this
+        # repeatedly for the same SKU across many orders that share it --
+        # a pure function of the already-cached, unchanging underlying
+        # data, so memoizing changes no computed value. See
+        # InventoryRiskEngine._sku_analysis_cache for the same pattern.
+        self._forecast_cache = {}
+        # _daily_series_for_sku() is the shared data-assembly step behind
+        # forecast_demand(), detect_demand_spikes(), detect_declining_demand(),
+        # and get_demand_summary() -- within one get_demand_summary() call it
+        # was otherwise rebuilt 3x per SKU (once per caller) for identical
+        # input. Cached per (sku, store_id); same reasoning as
+        # InventoryRiskEngine._sku_analysis_cache. No downstream code
+        # mutates the returned series/bundle in place.
+        self._daily_series_cache = {}
 
     @property
     def inventory_engine(self):
@@ -304,7 +320,12 @@ class DemandForecastEngine:
     def _daily_series_for_sku(self, sku, store_id=None):
         """Core data assembly shared by every public method: validates
         inputs, dedupes/cleans the sales rows, and builds the confirmed
-        daily series. Raises ValueError for invalid sku/store_id."""
+        daily series. Raises ValueError for invalid sku/store_id. Memoized
+        per raw (sku, store_id) -- see _daily_series_cache in __init__."""
+        cache_key = (sku, store_id)
+        if cache_key in self._daily_series_cache:
+            return self._daily_series_cache[cache_key]
+
         sales_df = self.service.get_sales_by_sku(sku)  # validates sku
         store_id = self._validate_store_id(store_id)
 
@@ -331,7 +352,7 @@ class DemandForecastEngine:
         product_found = len(product_rows) > 0
         product = product_rows.iloc[0].to_dict() if product_found else None
 
-        return {
+        result = {
             "series": series,
             "unknown_coverage_days": unknown_coverage_days,
             "product_found": product_found,
@@ -340,6 +361,8 @@ class DemandForecastEngine:
             "store_name": store_name,
             "invalid_qty_count": invalid_qty_count,
         }
+        self._daily_series_cache[cache_key] = result
+        return result
 
     def _promotion_overlap(self, sku, period):
         promo_df = self.service.get_promotions(sku)
@@ -362,6 +385,10 @@ class DemandForecastEngine:
         if not isinstance(horizon_days, int) or isinstance(horizon_days, bool) or horizon_days <= 0:
             raise ValueError(f"horizon_days must be a positive integer, got: {horizon_days!r}")
 
+        cache_key = (sku, horizon_days, store_id)
+        if cache_key in self._forecast_cache:
+            return self._forecast_cache[cache_key]
+
         bundle = self._daily_series_for_sku(sku, store_id=store_id)
         series = bundle["series"]
         forecast_start = (series.index.max() + pd.Timedelta(days=1)) if len(series) else None
@@ -382,7 +409,7 @@ class DemandForecastEngine:
                 f"(negative/non-numeric) quantity and were excluded."
             )
 
-        return {
+        result = {
             "sku": sku,
             "product_found": bundle["product_found"],
             "product_name": bundle["product"]["product_name"] if bundle["product"] else None,
@@ -410,6 +437,8 @@ class DemandForecastEngine:
             "data_quality_warnings": warnings,
             "settings_used": self.settings.as_dict(),
         }
+        self._forecast_cache[cache_key] = result
+        return result
 
     def get_top_forecasted_products(self, horizon_days=None, limit=10):
         if not isinstance(limit, int) or isinstance(limit, bool) or limit <= 0:

@@ -33,6 +33,7 @@ a data gap rather than aborting the whole response.
 """
 
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 from orchestration.service import RetailOrchestrationService
 
@@ -541,15 +542,41 @@ class RetailIntelligenceOrchestrator:
         and customer experience insights into one concise summary. The
         one workflow with no existing single-agent equivalent -- genuinely
         new synthesis, built only from each agent's own lightweight
-        summary function (cheap: five summary calls, no heavy per-item loops)."""
+        summary function (five summary calls, no heavy per-item loops of
+        its own -- though each underlying summary call does scan its
+        agent's full catalog/order set).
+
+        The five calls below are independent of each other's results (each
+        is only combined into key_findings/severity AFTER all five
+        complete) and only read from the already-cached RetailDataService/
+        engine caches -- nothing here writes shared state except appending
+        to agents_used/data_gaps, and list.append() is atomic under the
+        GIL. Running them on a thread pool rather than sequentially cuts
+        wall-clock time to roughly the slowest single agent instead of the
+        sum of all five; the only observable difference is that
+        agents_used/data_gaps may list entries in a different order."""
         agents_used, data_gaps, key_findings = [], [], []
         affected = {"skus": [], "stores": [], "orders": []}
 
-        inventory_summary = self._safe_call("inventory", agents_used, data_gaps, self.svc.inventory_engine, "get_inventory_summary")
-        demand_summary = self._safe_call("demand", agents_used, data_gaps, self.svc.demand_engine, "get_demand_summary")
-        promotion_summary = self._safe_call("promotion", agents_used, data_gaps, self.svc.promotion_engine, "get_promotional_demand_summary")
-        fulfillment_summary = self._safe_call("fulfillment", agents_used, data_gaps, self.svc.fulfillment_engine, "get_fulfillment_risk_summary")
-        cx_summary = self._safe_call("customer_experience", agents_used, data_gaps, self.svc.cx_engine, "get_customer_experience_summary")
+        calls = [
+            ("inventory", self.svc.inventory_engine, "get_inventory_summary"),
+            ("demand", self.svc.demand_engine, "get_demand_summary"),
+            ("promotion", self.svc.promotion_engine, "get_promotional_demand_summary"),
+            ("fulfillment", self.svc.fulfillment_engine, "get_fulfillment_risk_summary"),
+            ("customer_experience", self.svc.cx_engine, "get_customer_experience_summary"),
+        ]
+        with ThreadPoolExecutor(max_workers=len(calls)) as pool:
+            futures = {
+                name: pool.submit(self._safe_call, name, agents_used, data_gaps, engine, method)
+                for name, engine, method in calls
+            }
+            results = {name: future.result() for name, future in futures.items()}
+
+        inventory_summary = results["inventory"]
+        demand_summary = results["demand"]
+        promotion_summary = results["promotion"]
+        fulfillment_summary = results["fulfillment"]
+        cx_summary = results["customer_experience"]
 
         if inventory_summary:
             key_findings.append(

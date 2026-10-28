@@ -31,6 +31,8 @@ Read-only: this module never changes an order, inventory, or sends any
 customer communication -- see DISCLAIMER.
 """
 
+import pandas as pd
+
 from services.retail_data_service import RetailDataService
 from order_fulfillment_agent.fulfillment_engine import OrderFulfillmentEngine
 
@@ -172,6 +174,13 @@ class CustomerExperienceEngine:
             fulfillment_engine if fulfillment_engine is not None
             else OrderFulfillmentEngine(service=self.service)
         )
+        # get_customer_impact_risks() re-analyzes every at-risk order (full
+        # fulfillment + demand/promotion context) and is called repeatedly
+        # within a single request -- get_customer_experience_summary() and
+        # get_service_recovery_recommendations() each call it independently.
+        # Cached per resolved reference_date, same reasoning as
+        # OrderFulfillmentEngine._orders_at_risk_cache.
+        self._impact_risks_cache = {}
 
     # ---- shared helpers -------------------------------------------------
     def _marketplace_context(self, sku):
@@ -256,13 +265,18 @@ class CustomerExperienceEngine:
     def get_customer_impact_risks(self, reference_date=None):
         """Every open order with a customer-impacting fulfillment risk
         (critical/high/medium/unable_to_assess), enriched with the CX
-        layer. One bad order must not abort the whole scan."""
-        at_risk = self.fulfillment_engine.get_orders_at_risk(reference_date=reference_date)
+        layer. One bad order must not abort the whole scan. Memoized per
+        resolved reference_date (see __init__)."""
+        resolved_date = pd.Timestamp(reference_date).normalize() if reference_date is not None else pd.Timestamp.now().normalize()
+        if resolved_date in self._impact_risks_cache:
+            return self._impact_risks_cache[resolved_date]
+
+        at_risk = self.fulfillment_engine.get_orders_at_risk(reference_date=resolved_date)
         results = []
         for lean_result in at_risk:
             order_id = lean_result["order_id"]
             try:
-                results.append(self.analyze_customer_order_experience(order_id, reference_date=reference_date))
+                results.append(self.analyze_customer_order_experience(order_id, reference_date=resolved_date))
             except Exception as exc:
                 results.append({
                     "order_id": order_id, "order_found": True,
@@ -273,6 +287,7 @@ class CustomerExperienceEngine:
                     "disclaimer": DISCLAIMER,
                 })
         results.sort(key=lambda r: SEVERITY_ORDER.get(r.get("severity"), 99))
+        self._impact_risks_cache[resolved_date] = results
         return results
 
     def get_at_risk_customer_orders(self, limit=10, reference_date=None):

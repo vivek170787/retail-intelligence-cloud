@@ -139,6 +139,13 @@ class OrderFulfillmentEngine:
             demand_engine if demand_engine is not None
             else DemandForecastEngine(service=self.service, inventory_engine=self.inventory_engine)
         )
+        # get_orders_at_risk() is the most expensive bulk scan here (every
+        # open order) and is called repeatedly within a single request
+        # (get_fulfillment_priorities(), the CX engine's get_customer_impact_risks(),
+        # and the orchestrator's executive summary all call it independently).
+        # Cached per resolved (normalized) reference_date -- see
+        # InventoryRiskEngine._sku_analysis_cache for the same reasoning.
+        self._orders_at_risk_cache = {}
 
     # ---- shared helpers -------------------------------------------------
     def _reference_date(self, reference_date=None):
@@ -334,8 +341,12 @@ class OrderFulfillmentEngine:
     # ---- required public functions -------------------------------------
     def get_orders_at_risk(self, reference_date=None):
         """Open orders classified critical/high/medium/unable_to_assess
-        (excludes low -- healthy -- and not_applicable -- terminal)."""
+        (excludes low -- healthy -- and not_applicable -- terminal).
+        Memoized per resolved reference_date (see __init__)."""
         reference_date = self._reference_date(reference_date)
+        if reference_date in self._orders_at_risk_cache:
+            return self._orders_at_risk_cache[reference_date]
+
         orders_df = self.service.get_orders()
         open_orders = orders_df[orders_df["order_status"].isin(OPEN_ORDER_STATUSES)]
 
@@ -346,6 +357,7 @@ class OrderFulfillmentEngine:
                 results.append(report)
 
         results.sort(key=lambda r: RISK_SEVERITY_ORDER.get(r["risk_level"], 99))
+        self._orders_at_risk_cache[reference_date] = results
         return results
 
     def get_orders_due_today(self, reference_date=None):
