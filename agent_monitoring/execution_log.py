@@ -28,12 +28,21 @@ inserts are small enough (one row) that the overhead is negligible for
 this "lightweight" use case.
 """
 
+import os
 import sqlite3
 from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent.parent / "db" / "agent_execution_log.db"
+_DEFAULT_DB_PATH = Path(__file__).resolve().parent.parent / "db" / "agent_execution_log.db"
+# On Vercel the deployment filesystem is read-only; only /tmp is writable.
+# AGENT_LOG_DB_PATH overrides the location explicitly when set.
+if os.getenv("AGENT_LOG_DB_PATH"):
+    DB_PATH = Path(os.environ["AGENT_LOG_DB_PATH"])
+elif os.getenv("VERCEL"):
+    DB_PATH = Path("/tmp") / "agent_execution_log.db"
+else:
+    DB_PATH = _DEFAULT_DB_PATH
 
 _CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS agent_executions (
