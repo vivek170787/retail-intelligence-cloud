@@ -8,7 +8,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Retail Intelligence Cloud",
+  title: "Retail Intelligence Suite",
   description: "Omnichannel Retail AI Agent Platform -- enterprise command center.",
 };
 

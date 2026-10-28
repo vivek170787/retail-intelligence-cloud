@@ -31,7 +31,7 @@ export function HelpMenu() {
         <div className="absolute right-0 top-full z-50 mt-1 w-72 rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] p-3 text-sm shadow-lg">
           <p className="font-medium text-[var(--ric-text-primary)]">About this demo</p>
           <p className="mt-1 text-[var(--ric-text-secondary)]">
-            Retail Intelligence Cloud is a read-only view over a fixed, synthetic 90-day retail dataset. No
+            Retail Intelligence Suite is a read-only view over a fixed, synthetic 90-day retail dataset. No
             order, inventory, or customer record is ever changed by this UI -- every recommendation requires
             human approval elsewhere.
           </p>

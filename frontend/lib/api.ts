@@ -59,7 +59,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     });
   } catch {
     throw new ApiError(
-      "Could not reach the Retail Intelligence Cloud API. Is the backend running (uvicorn api.main:app)?",
+      "Could not reach the Retail Intelligence Suite API. Is the backend running (uvicorn api.main:app)?",
       0
     );
   }

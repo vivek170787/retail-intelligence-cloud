@@ -25,7 +25,7 @@ export function TopNav({ onToggleMobileNav }: { onToggleMobileNav: () => void })
       <div className="flex items-center gap-2.5">
         <ShoppingBag className="h-5 w-5 text-[var(--ric-primary)]" aria-hidden="true" />
         <span className="hidden text-[15px] font-semibold text-[var(--ric-text-primary)] sm:inline">
-          Retail Intelligence Cloud
+          Retail Intelligence Suite
         </span>
       </div>
 
