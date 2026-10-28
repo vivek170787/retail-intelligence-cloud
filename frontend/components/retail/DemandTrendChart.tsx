@@ -31,27 +31,27 @@ export function DemandTrendChart({ points }: { points: DemandTrendPoint[] }) {
           <CartesianGrid vertical={false} stroke="var(--ric-border)" />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 11, fill: "#5b6472" }}
-            axisLine={{ stroke: "#e2e5eb" }}
+            tick={{ fontSize: 11, fill: "var(--ric-text-secondary)" }}
+            axisLine={{ stroke: "var(--ric-border)" }}
             tickLine={false}
             minTickGap={24}
           />
           <YAxis
             allowDecimals={false}
-            tick={{ fontSize: 11, fill: "#5b6472" }}
-            axisLine={{ stroke: "#e2e5eb" }}
+            tick={{ fontSize: 11, fill: "var(--ric-text-secondary)" }}
+            axisLine={{ stroke: "var(--ric-border)" }}
             tickLine={false}
             width={40}
           />
           <Tooltip
-            contentStyle={{ fontSize: 12, borderRadius: 6, border: "1px solid #e2e5eb", boxShadow: "none" }}
+            contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid var(--ric-border)", boxShadow: "none" }}
           />
           <Legend wrapperStyle={{ fontSize: 11 }} />
           <Line
             type="monotone"
             dataKey="historical"
             name="Historical (measured)"
-            stroke="#2f5fdb"
+            stroke="var(--ric-primary)"
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}
@@ -61,7 +61,7 @@ export function DemandTrendChart({ points }: { points: DemandTrendPoint[] }) {
             type="monotone"
             dataKey="forecast"
             name="Forecast (estimated)"
-            stroke="#f57c00"
+            stroke="var(--ric-warning)"
             strokeWidth={2}
             strokeDasharray="4 3"
             dot={false}

@@ -52,10 +52,10 @@ export function GlobalSearch() {
         onBlur={() => setOpen(false)}
         placeholder="Search workspaces..."
         aria-label="Search workspaces"
-        className="w-full rounded-md border border-[var(--ric-border)] bg-[var(--ric-page-bg)] py-1.5 pl-8 pr-3 text-sm text-[var(--ric-text-primary)] outline-none focus:border-[var(--ric-primary)]"
+        className="w-full rounded-lg border border-[var(--ric-border)] bg-[var(--ric-page-bg)] py-1.5 pl-8 pr-3 text-sm text-[var(--ric-text-primary)] outline-none focus:border-[var(--ric-primary)]"
       />
       {open && query.trim() && (
-        <ul className="absolute left-0 right-0 top-full z-50 mt-1 max-h-72 overflow-y-auto rounded-md border border-[var(--ric-border)] bg-[var(--ric-card-bg)] shadow-lg">
+        <ul className="absolute left-0 right-0 top-full z-50 mt-1 max-h-72 overflow-y-auto rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] shadow-lg">
           {results.length > 0 ? (
             results.map((item) => (
               <li key={item.href}>

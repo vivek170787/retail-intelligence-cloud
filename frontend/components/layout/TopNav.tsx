@@ -17,7 +17,7 @@ export function TopNav({ onToggleMobileNav }: { onToggleMobileNav: () => void })
         type="button"
         onClick={onToggleMobileNav}
         title="Open navigation"
-        className="rounded-md p-2 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)] md:hidden"
+        className="rounded-lg p-2 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)] md:hidden"
       >
         <Menu className="h-4.5 w-4.5" aria-hidden="true" />
       </button>
@@ -38,7 +38,7 @@ export function TopNav({ onToggleMobileNav }: { onToggleMobileNav: () => void })
           type="button"
           disabled
           title="Demonstration UI only -- not a real organization directory"
-          className="hidden items-center gap-1.5 rounded-md border border-[var(--ric-border)] px-3 py-1.5 text-sm text-[var(--ric-text-secondary)] disabled:cursor-not-allowed md:flex"
+          className="hidden items-center gap-1.5 rounded-lg border border-[var(--ric-border)] px-3 py-1.5 text-sm text-[var(--ric-text-secondary)] disabled:cursor-not-allowed md:flex"
         >
           <span>Demo Retail Co.</span>
           <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
@@ -50,7 +50,7 @@ export function TopNav({ onToggleMobileNav }: { onToggleMobileNav: () => void })
           type="button"
           disabled
           title="Demonstration UI only -- no real notification system"
-          className="rounded-md p-2 text-[var(--ric-text-secondary)] disabled:cursor-not-allowed"
+          className="rounded-lg p-2 text-[var(--ric-text-secondary)] disabled:cursor-not-allowed"
         >
           <Bell className="h-4.5 w-4.5" aria-hidden="true" />
         </button>

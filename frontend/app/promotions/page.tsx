@@ -170,7 +170,7 @@ export default function PromotionsPage() {
         <button
           type="button"
           onClick={() => setSelectedSku(r.sku)}
-          className="rounded-md border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
+          className="rounded-lg border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
         >
           View readiness
         </button>
@@ -271,7 +271,7 @@ export default function PromotionsPage() {
         <button
           type="button"
           onClick={() => setSelectedSku(r.sku)}
-          className="rounded-md border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
+          className="rounded-lg border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
         >
           View details
         </button>
@@ -308,7 +308,7 @@ export default function PromotionsPage() {
               readiness.refetch();
               catalog.refetch();
             }}
-            className="flex items-center gap-1.5 rounded-md border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
+            className="flex items-center gap-1.5 rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
           >
             Refresh data
           </button>

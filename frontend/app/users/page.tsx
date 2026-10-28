@@ -83,7 +83,7 @@ export default function UsersPage() {
         </p>
       </div>
 
-      <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs text-amber-800">
+      <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs text-amber-800">
         <strong>Demonstration UI only:</strong> this project has no real authentication or authorization system.
         The users, roles, and permissions below are illustrative, session-only data with no backend persistence or
         enforcement -- nothing on this page grants, revokes, or changes real access to anything. The top bar&apos;s
@@ -103,7 +103,7 @@ export default function UsersPage() {
           subtitle="Demo role definitions -- illustrative only, not enforced by any backend."
         />
         <CardBody>
-          <div className="overflow-x-auto rounded-md border border-[var(--ric-border)]">
+          <div className="overflow-x-auto rounded-lg border border-[var(--ric-border)]">
             <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-[var(--ric-page-bg)]">

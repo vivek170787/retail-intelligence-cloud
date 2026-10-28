@@ -27,7 +27,7 @@ export function ReviewActionButton({ itemLabel }: { itemLabel: string }) {
       <button
         type="button"
         onClick={() => setDialogOpen(true)}
-        className="rounded-md border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
+        className="rounded-lg border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
       >
         Mark reviewed
       </button>

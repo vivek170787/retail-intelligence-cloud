@@ -44,7 +44,7 @@ export function ForecastErrorMetrics({ backtest }: { backtest: BacktestResult })
         not a guarantee of future accuracy.
         {backtest.zero_actual_demand_in_holdout && " The holdout period had zero actual demand; WAPE is undefined."}
       </p>
-      <div className="overflow-x-auto rounded-md border border-[var(--ric-border)]">
+      <div className="overflow-x-auto rounded-lg border border-[var(--ric-border)]">
         <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="bg-[var(--ric-page-bg)]">

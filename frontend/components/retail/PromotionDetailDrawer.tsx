@@ -132,7 +132,7 @@ export function PromotionDetailDrawer({ sku, onClose }: { sku: string; onClose: 
             type="button"
             onClick={onClose}
             title="Close"
-            className="rounded-md p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
+            className="rounded-lg p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -176,7 +176,7 @@ export function PromotionDetailDrawer({ sku, onClose }: { sku: string; onClose: 
                     return (
                       <li
                         key={promo.promotion_id}
-                        className="rounded-md border border-[var(--ric-border)] p-3 text-sm"
+                        className="rounded-lg border border-[var(--ric-border)] p-3 text-sm"
                       >
                         <p className="font-medium text-[var(--ric-text-primary)]">{promo.promotion_name}</p>
                         {c.comparable ? (
@@ -243,7 +243,7 @@ function ReadinessReportCard({
   const uplift = UPLIFT_SOURCE_LABELS[report.promotional_demand_estimate.source] ?? UPLIFT_SOURCE_LABELS.unknown;
 
   return (
-    <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+    <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="font-medium text-[var(--ric-text-primary)]">{promotionLabel(promo, report.promotion_id)}</p>
         <SeverityBadge value={report.readiness_status} />
@@ -255,38 +255,38 @@ function ReadinessReportCard({
       </p>
 
       <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-        <div className="rounded-md bg-[var(--ric-page-bg)] p-2.5">
+        <div className="rounded-lg bg-[var(--ric-page-bg)] p-2.5">
           <p className="text-xs text-[var(--ric-text-secondary)]">Baseline demand (estimate)</p>
           <p className="mt-0.5 text-base font-semibold text-[var(--ric-text-primary)]">
             {report.baseline_forecast_demand ?? "Unavailable"}
           </p>
         </div>
-        <div className="rounded-md bg-[var(--ric-page-bg)] p-2.5">
+        <div className="rounded-lg bg-[var(--ric-page-bg)] p-2.5">
           <p className="text-xs text-[var(--ric-text-secondary)]">Current inventory</p>
           <p className="mt-0.5 text-base font-semibold text-[var(--ric-text-primary)]">
             {report.observed?.current_available_inventory ?? "Unavailable"}
           </p>
         </div>
-        <div className="rounded-md bg-[var(--ric-page-bg)] p-2.5">
+        <div className="rounded-lg bg-[var(--ric-page-bg)] p-2.5">
           <p className="text-xs text-[var(--ric-text-secondary)]">Eligible warehouse stock</p>
           <p className="mt-0.5 text-base font-semibold text-[var(--ric-text-primary)]">
             {report.observed?.warehouse_available_stock ?? "Unavailable"}
           </p>
         </div>
-        <div className="rounded-md bg-[var(--ric-page-bg)] p-2.5">
+        <div className="rounded-lg bg-[var(--ric-page-bg)] p-2.5">
           <p className="text-xs text-[var(--ric-text-secondary)]">Eligible inbound (within promo)</p>
           <p className="mt-0.5 text-base font-semibold text-[var(--ric-text-primary)]">
             {report.observed?.known_inbound_stock_eligible_within_promotion ?? "Unavailable"}
           </p>
         </div>
-        <div className="rounded-md bg-[var(--ric-page-bg)] p-2.5">
+        <div className="rounded-lg bg-[var(--ric-page-bg)] p-2.5">
           <p className="text-xs text-[var(--ric-text-secondary)]">Max known supplier lead time</p>
           <p className="mt-0.5 text-base font-semibold text-[var(--ric-text-primary)]">
             {report.observed?.max_known_supplier_lead_time_days ?? "Unknown"}{" "}
             {report.observed?.max_known_supplier_lead_time_days != null ? "day(s)" : ""}
           </p>
         </div>
-        <div className="rounded-md bg-[var(--ric-page-bg)] p-2.5">
+        <div className="rounded-lg bg-[var(--ric-page-bg)] p-2.5">
           <p className="text-xs text-[var(--ric-text-secondary)]">Demand gap</p>
           <p className="mt-0.5 text-base font-semibold text-[var(--ric-text-primary)]">
             {report.demand_gap ?? "Unavailable"}
@@ -294,7 +294,7 @@ function ReadinessReportCard({
         </div>
       </div>
 
-      <div className="mt-3 rounded-md bg-[var(--ric-page-bg)] p-2.5">
+      <div className="mt-3 rounded-lg bg-[var(--ric-page-bg)] p-2.5">
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-xs text-[var(--ric-text-secondary)]">Estimated promotional demand:</p>
           <Badge label={uplift.label} tone={uplift.tone} dot />

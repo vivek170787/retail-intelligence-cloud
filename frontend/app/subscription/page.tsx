@@ -63,7 +63,7 @@ export default function SubscriptionPage() {
         </p>
       </div>
 
-      <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs text-amber-800">
+      <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5 text-xs text-amber-800">
         <strong>Demonstration data:</strong> this project has no real billing, plan, or subscription system, and no
         paid billing provider is integrated here. The Plan Overview and Configurable Limits sections below are
         illustrative only and enforce nothing. The Usage Metrics section below is real -- it is the same locally-

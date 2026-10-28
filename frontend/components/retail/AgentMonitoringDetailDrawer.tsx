@@ -87,7 +87,7 @@ export function AgentMonitoringDetailDrawer({
             type="button"
             onClick={onClose}
             title="Close"
-            className="rounded-md p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
+            className="rounded-lg p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -102,19 +102,19 @@ export function AgentMonitoringDetailDrawer({
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-md border border-[var(--ric-border)] p-3">
+            <div className="rounded-lg border border-[var(--ric-border)] p-3">
               <p className="text-xs text-[var(--ric-text-secondary)]">Total runs</p>
               <p className="mt-1 text-lg font-semibold text-[var(--ric-text-primary)]">{agent.total_runs}</p>
             </div>
-            <div className="rounded-md border border-[var(--ric-border)] p-3">
+            <div className="rounded-lg border border-[var(--ric-border)] p-3">
               <p className="text-xs text-[var(--ric-text-secondary)]">Successful</p>
               <p className="mt-1 text-lg font-semibold text-[var(--ric-text-primary)]">{agent.successful_runs}</p>
             </div>
-            <div className="rounded-md border border-[var(--ric-border)] p-3">
+            <div className="rounded-lg border border-[var(--ric-border)] p-3">
               <p className="text-xs text-[var(--ric-text-secondary)]">Failed</p>
               <p className="mt-1 text-lg font-semibold text-[var(--ric-text-primary)]">{agent.failed_runs}</p>
             </div>
-            <div className="rounded-md border border-[var(--ric-border)] p-3">
+            <div className="rounded-lg border border-[var(--ric-border)] p-3">
               <p className="text-xs text-[var(--ric-text-secondary)]">Last execution duration</p>
               <p className="mt-1 text-lg font-semibold text-[var(--ric-text-primary)]">
                 {agent.last_execution ? `${Math.round(agent.last_execution.duration_ms)} ms` : "Unavailable"}
@@ -123,7 +123,7 @@ export function AgentMonitoringDetailDrawer({
           </div>
 
           {agent.last_execution ? (
-            <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+            <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
               <p className="text-xs font-medium text-[var(--ric-text-secondary)]">Last execution</p>
               <p className="mt-1 text-[var(--ric-text-primary)]">
                 {new Date(agent.last_execution.started_at).toLocaleString()} -- {agent.last_execution.method}{" "}

@@ -144,7 +144,7 @@ export function OrderDetailDrawer({ orderId, onClose }: { orderId: string; onClo
             type="button"
             onClick={onClose}
             title="Close"
-            className="rounded-md p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
+            className="rounded-lg p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -166,7 +166,7 @@ export function OrderDetailDrawer({ orderId, onClose }: { orderId: string; onClo
               </div>
 
               {report.note && (
-                <div className="rounded-md bg-[var(--ric-page-bg)] px-3 py-2.5 text-sm text-[var(--ric-text-secondary)]">
+                <div className="rounded-lg bg-[var(--ric-page-bg)] px-3 py-2.5 text-sm text-[var(--ric-text-secondary)]">
                   {report.note}
                 </div>
               )}
@@ -175,25 +175,25 @@ export function OrderDetailDrawer({ orderId, onClose }: { orderId: string; onClo
               <section>
                 <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">Order details</h3>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  <div className="rounded-md border border-[var(--ric-border)] p-3">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3">
                     <p className="text-xs text-[var(--ric-text-secondary)]">Customer</p>
                     <p className="mt-1 text-sm font-semibold text-[var(--ric-text-primary)]">
                       {report.customer_id ?? "Unknown"}
                     </p>
                   </div>
-                  <div className="rounded-md border border-[var(--ric-border)] p-3">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3">
                     <p className="text-xs text-[var(--ric-text-secondary)]">Quantity</p>
                     <p className="mt-1 text-sm font-semibold text-[var(--ric-text-primary)]">
                       {report.quantity ?? "Unknown"}
                     </p>
                   </div>
-                  <div className="rounded-md border border-[var(--ric-border)] p-3">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3">
                     <p className="text-xs text-[var(--ric-text-secondary)]">Order date</p>
                     <p className="mt-1 text-sm font-semibold text-[var(--ric-text-primary)]">
                       {report.order_date ?? "Unknown"}
                     </p>
                   </div>
-                  <div className="rounded-md border border-[var(--ric-border)] p-3">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3">
                     <p className="text-xs text-[var(--ric-text-secondary)]">Fulfillment location</p>
                     <p className="mt-1 text-sm font-semibold text-[var(--ric-text-primary)]">
                       {report.fulfillment_location ?? "Unknown"}{" "}
@@ -202,7 +202,7 @@ export function OrderDetailDrawer({ orderId, onClose }: { orderId: string; onClo
                         : ""}
                     </p>
                   </div>
-                  <div className="rounded-md border border-[var(--ric-border)] p-3 sm:col-span-2">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3 sm:col-span-2">
                     <p className="text-xs text-[var(--ric-text-secondary)]">Promised delivery date</p>
                     <p className="mt-1 text-sm font-semibold text-[var(--ric-text-primary)]">
                       {report.promised_delivery_date ?? "Not recorded"}
@@ -215,7 +215,7 @@ export function OrderDetailDrawer({ orderId, onClose }: { orderId: string; onClo
               {/* ---- Delivery feasibility -- always "unknown", never invented ---- */}
               <section>
                 <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">Delivery feasibility</h3>
-                <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                   <Badge label="Unknown -- not computable" tone="neutral" dot />
                   <p className="mt-2 text-xs text-[var(--ric-text-secondary)]">
                     {report.delivery_feasibility?.reason ??
@@ -230,7 +230,7 @@ export function OrderDetailDrawer({ orderId, onClose }: { orderId: string; onClo
                   Inventory readiness at fulfillment location
                 </h3>
                 {report.inventory_readiness ? (
-                  <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                       <div>
                         <p className="text-xs text-[var(--ric-text-secondary)]">Eligible available</p>
@@ -278,7 +278,7 @@ export function OrderDetailDrawer({ orderId, onClose }: { orderId: string; onClo
                   <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">
                     Demand context (estimate)
                   </h3>
-                  <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm text-[var(--ric-text-primary)]">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm text-[var(--ric-text-primary)]">
                     {report.demand_context.available ? (
                       <p>
                         Forecast demand (estimate) over the next {report.demand_context.horizon_days} day(s):{" "}
@@ -297,7 +297,7 @@ export function OrderDetailDrawer({ orderId, onClose }: { orderId: string; onClo
               {report.promotion_context?.has_relevant_promotion && (
                 <section>
                   <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">Promotion context</h3>
-                  <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                     <ul className="list-disc space-y-1 pl-5 text-[var(--ric-text-primary)]">
                       {report.promotion_context.promotions.map((p) => (
                         <li key={p.promotion_id}>

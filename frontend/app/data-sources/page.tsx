@@ -42,7 +42,7 @@ const CATEGORY_ORDER = [
 function ConnectorCard({ connector }: { connector: ConnectorStatus }) {
   const ok = connector.status === "implemented_and_tested";
   return (
-    <div className="rounded-md border border-[var(--ric-border)] p-3">
+    <div className="rounded-lg border border-[var(--ric-border)] p-3">
       <div className="flex items-start justify-between gap-2">
         <p className="text-sm font-semibold text-[var(--ric-text-primary)]">{connector.display_name}</p>
         {ok ? (
@@ -110,7 +110,7 @@ export default function DataSourcesPage() {
 
       {overview.data && (
         <>
-          <div className="rounded-md border border-[var(--ric-border)] bg-[var(--ric-page-bg)] px-3 py-2.5 text-xs text-[var(--ric-text-secondary)]">
+          <div className="rounded-lg border border-[var(--ric-border)] bg-[var(--ric-page-bg)] px-3 py-2.5 text-xs text-[var(--ric-text-secondary)]">
             {overview.data.note}
           </div>
 
@@ -142,7 +142,7 @@ export default function DataSourcesPage() {
                   <CardBody className="space-y-3">
                     {implemented?.map((c) => <ConnectorCard key={c.connector_key} connector={c} />)}
                     {planned && (
-                      <div className="rounded-md border border-dashed border-[var(--ric-border)] p-3">
+                      <div className="rounded-lg border border-dashed border-[var(--ric-border)] p-3">
                         <div className="flex items-center justify-between gap-2">
                           <p className="text-sm font-semibold text-[var(--ric-text-primary)]">
                             {planned.display_name}

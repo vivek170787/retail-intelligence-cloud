@@ -38,7 +38,7 @@ export function RetailAiAnswerCard({ response }: { response: RetailAiQueryRespon
       <CardHeader title={response.summary} subtitle={`"${response.query}" -- category: ${response.category}`} />
       <CardBody className="space-y-4">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div className="rounded-md border border-[var(--ric-border)] p-3">
+          <div className="rounded-lg border border-[var(--ric-border)] p-3">
             <p className="text-xs text-[var(--ric-text-secondary)]">Severity</p>
             <div className="mt-1.5">
               <SeverityBadge value={response.severity} />
@@ -51,7 +51,7 @@ export function RetailAiAnswerCard({ response }: { response: RetailAiQueryRespon
 
         {/* ---- AI narration (optional, non-blocking enrichment) ---- */}
         {response.ai_narration.answer ? (
-          <div className="rounded-md border border-[var(--ric-border)] bg-[var(--ric-page-bg)] p-3">
+          <div className="rounded-lg border border-[var(--ric-border)] bg-[var(--ric-page-bg)] p-3">
             <div className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-[var(--ric-text-secondary)]">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               AI narration (narrates the structured result below -- never computes new numbers)

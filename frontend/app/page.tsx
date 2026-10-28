@@ -261,8 +261,9 @@ export default function ExecutiveOverviewPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
-      {/* ---- Header ---- */}
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      {/* ---- Header (subtle hero treatment -- this app has no separate marketing
+           landing page, so the dashboard's own header is the closest equivalent) ---- */}
+      <div className="flex flex-wrap items-start justify-between gap-4 rounded-xl border border-[var(--ric-border)] bg-gradient-to-br from-[var(--ric-pale-highlight)] to-[var(--ric-card-bg)] p-6">
         <div>
           <h1 className="text-xl font-semibold text-[var(--ric-text-primary)]">Retail Command Center</h1>
           <p className="mt-1 text-sm text-[var(--ric-text-secondary)]">
@@ -286,7 +287,7 @@ export default function ExecutiveOverviewPage() {
             type="button"
             disabled
             title="Store-level filtering isn't available for this catalog-wide view yet; see the per-SKU/store breakdown once the Inventory Intelligence workspace is wired up."
-            className="flex items-center gap-1.5 rounded-md border border-[var(--ric-border)] px-3 py-1.5 text-sm text-[var(--ric-text-secondary)] disabled:cursor-not-allowed"
+            className="flex items-center gap-1.5 rounded-lg border border-[var(--ric-border)] px-3 py-1.5 text-sm text-[var(--ric-text-secondary)] disabled:cursor-not-allowed"
           >
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
             <span>All stores</span>
@@ -303,7 +304,7 @@ export default function ExecutiveOverviewPage() {
               serviceRecovery.refetch();
               customerImpactRisks.refetch();
             }}
-            className="flex items-center gap-1.5 rounded-md border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
+            className="flex items-center gap-1.5 rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
           >
             <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
             Refresh data
@@ -409,14 +410,14 @@ export default function ExecutiveOverviewPage() {
             />
             <CardBody>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="rounded-md border border-[var(--ric-border)] p-4">
+                <div className="rounded-lg border border-[var(--ric-border)] bg-[var(--ric-pale-highlight)] p-4">
                   <Badge label="Measured" tone="info" />
                   <p className="mt-2 text-xs text-[var(--ric-text-secondary)]">Actual confirmed sales, last 7 days</p>
                   <p className="mt-1 text-2xl font-semibold text-[var(--ric-text-primary)]">
                     {actualLast7Days !== null ? Math.round(actualLast7Days) : "Unavailable"}
                   </p>
                 </div>
-                <div className="rounded-md border border-[var(--ric-border)] p-4">
+                <div className="rounded-lg border border-[var(--ric-border)] p-4">
                   <Badge label="Estimated" tone="neutral" />
                   <p className="mt-2 text-xs text-[var(--ric-text-secondary)]">
                     Forecasted demand, next 7 days (all products)

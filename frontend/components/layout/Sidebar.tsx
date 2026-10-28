@@ -29,7 +29,7 @@ function NavGroups({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?:
                   <li key={item.href}>
                     <span
                       title={item.comingSoonNote ?? "Coming soon"}
-                      className={`flex cursor-not-allowed items-center gap-2.5 rounded-md px-3 py-2 text-sm text-[var(--ric-text-secondary)] opacity-60 ${
+                      className={`flex cursor-not-allowed items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-[var(--ric-text-secondary)] opacity-60 ${
                         collapsed ? "justify-center" : ""
                       }`}
                     >
@@ -51,12 +51,12 @@ function NavGroups({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?:
                     href={item.href}
                     title={collapsed ? item.label : undefined}
                     onClick={onNavigate}
-                    className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors ${
+                    className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors ${
                       collapsed ? "justify-center" : ""
                     } ${
                       isActive
-                        ? "bg-[color-mix(in_srgb,var(--ric-primary)_10%,white)] font-medium text-[var(--ric-primary)]"
-                        : "text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
+                        ? "bg-[var(--ric-accent-light)] font-medium text-[var(--ric-primary)]"
+                        : "text-[var(--ric-text-primary)] hover:bg-[var(--ric-section-bg)]"
                     }`}
                   >
                     <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -99,7 +99,7 @@ export function Sidebar({
             type="button"
             onClick={onToggleCollapsed}
             title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className="flex w-full items-center justify-center gap-2 rounded-md px-3 py-2 text-sm text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
+            className="flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
           >
             {collapsed ? (
               <PanelLeftOpen className="h-4 w-4" aria-hidden="true" />
@@ -124,7 +124,7 @@ export function Sidebar({
                 type="button"
                 onClick={onCloseMobile}
                 title="Close navigation"
-                className="rounded-md p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
+                className="rounded-lg p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
               >
                 <X className="h-4 w-4" aria-hidden="true" />
               </button>

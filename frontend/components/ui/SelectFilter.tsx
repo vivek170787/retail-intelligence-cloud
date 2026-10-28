@@ -25,7 +25,7 @@ export function SelectFilter({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded-md border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-2.5 py-1.5 text-sm text-[var(--ric-text-primary)] outline-none focus:border-[var(--ric-primary)]"
+        className="rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-2.5 py-1.5 text-sm text-[var(--ric-text-primary)] outline-none transition-colors focus:border-[var(--ric-primary)] focus:ring-2 focus:ring-[var(--ric-accent-light)]"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

@@ -44,12 +44,12 @@ const DEFAULT_STYLE: SeverityStyle = SEVERITY_STYLES.unable_to_assess;
 // Literal hex equivalents of the --ric-severity-* tokens in globals.css,
 // for contexts (chart fills) that can't consume a Tailwind class name.
 const SEVERITY_HEX: Record<string, string> = {
-  critical: "#d32f2f",
-  high: "#f57c00",
-  insufficient: "#f57c00",
-  medium: "#b58900",
-  low: "#2e7d32",
-  sufficient: "#2e7d32",
+  critical: "#dc2626",
+  high: "#d97706",
+  insufficient: "#d97706",
+  medium: "#ca8a04",
+  low: "#16a34a",
+  sufficient: "#16a34a",
   unable_to_assess: "#94a3b8",
   cannot_determine: "#94a3b8",
   not_applicable: "#cbd5e1",

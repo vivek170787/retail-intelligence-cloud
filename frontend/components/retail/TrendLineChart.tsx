@@ -26,26 +26,26 @@ export function TrendLineChart({ points, valueLabel = "Units" }: { points: Trend
           <CartesianGrid vertical={false} stroke="var(--ric-border)" />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 11, fill: "#5b6472" }}
-            axisLine={{ stroke: "#e2e5eb" }}
+            tick={{ fontSize: 11, fill: "var(--ric-text-secondary)" }}
+            axisLine={{ stroke: "var(--ric-border)" }}
             tickLine={false}
             minTickGap={24}
           />
           <YAxis
             allowDecimals={false}
-            tick={{ fontSize: 11, fill: "#5b6472" }}
-            axisLine={{ stroke: "#e2e5eb" }}
+            tick={{ fontSize: 11, fill: "var(--ric-text-secondary)" }}
+            axisLine={{ stroke: "var(--ric-border)" }}
             tickLine={false}
             width={40}
           />
           <Tooltip
             formatter={(value) => [value, valueLabel] as [typeof value, string]}
-            contentStyle={{ fontSize: 12, borderRadius: 6, border: "1px solid #e2e5eb", boxShadow: "none" }}
+            contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid var(--ric-border)", boxShadow: "none" }}
           />
           <Line
             type="monotone"
             dataKey="value"
-            stroke="#2f5fdb"
+            stroke="var(--ric-primary)"
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}

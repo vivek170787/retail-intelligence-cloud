@@ -41,7 +41,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           mobileOpen={mobileNavOpen}
           onCloseMobile={() => setMobileNavOpen(false)}
         />
-        <main className="flex-1 overflow-y-auto bg-[var(--ric-page-bg)] p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto bg-[var(--ric-page-bg)] p-6 [background-image:radial-gradient(ellipse_70%_45%_at_50%_-10%,var(--ric-accent-light),transparent)] [background-attachment:fixed] [background-repeat:no-repeat]">
+          {children}
+        </main>
       </div>
     </div>
   );

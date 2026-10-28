@@ -195,7 +195,7 @@ export default function CustomerExperiencePage() {
         <button
           type="button"
           onClick={() => setSelectedOrderId(r.order_id)}
-          className="rounded-md border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
+          className="rounded-lg border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
         >
           View details
         </button>
@@ -224,7 +224,7 @@ export default function CustomerExperiencePage() {
             impactRisks.refetch();
             recovery.refetch();
           }}
-          className="flex items-center gap-1.5 rounded-md border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
+          className="flex items-center gap-1.5 rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
         >
           Refresh data
         </button>
@@ -321,7 +321,7 @@ export default function CustomerExperiencePage() {
               </div>
               <ul className="space-y-2">
                 {recovery.data.orders.map((o) => (
-                  <li key={o.order_id} className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                  <li key={o.order_id} className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="font-medium text-[var(--ric-text-primary)]">
                         {o.order_id} {o.sku ? `-- ${o.sku}` : ""}
@@ -331,7 +331,7 @@ export default function CustomerExperiencePage() {
                         <button
                           type="button"
                           onClick={() => setSelectedOrderId(o.order_id)}
-                          className="rounded-md border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
+                          className="rounded-lg border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
                         >
                           View details
                         </button>

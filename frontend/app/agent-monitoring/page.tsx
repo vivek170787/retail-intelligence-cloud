@@ -51,13 +51,13 @@ export default function AgentMonitoringPage() {
         <button
           type="button"
           onClick={() => agents.refetch()}
-          className="flex items-center gap-1.5 rounded-md border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
+          className="flex items-center gap-1.5 rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
         >
           Refresh data
         </button>
       </div>
 
-      <div className="rounded-md border border-[var(--ric-border)] bg-[var(--ric-page-bg)] px-3 py-2.5 text-xs text-[var(--ric-text-secondary)]">
+      <div className="rounded-lg border border-[var(--ric-border)] bg-[var(--ric-page-bg)] px-3 py-2.5 text-xs text-[var(--ric-text-secondary)]">
         Every record on this page is a real HTTP request this backend actually served, logged locally to a
         dedicated SQLite database (<code>agent_monitoring/execution_log.py</code>) -- none of it is sample,
         simulated, or fabricated data. An agent with no executions yet has simply not been called since this
@@ -94,15 +94,15 @@ export default function AgentMonitoringPage() {
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="rounded-md bg-[var(--ric-page-bg)] p-2">
+                <div className="rounded-lg bg-[var(--ric-page-bg)] p-2">
                   <p className="text-xs text-[var(--ric-text-secondary)]">Runs</p>
                   <p className="text-base font-semibold text-[var(--ric-text-primary)]">{agent.total_runs}</p>
                 </div>
-                <div className="rounded-md bg-[var(--ric-page-bg)] p-2">
+                <div className="rounded-lg bg-[var(--ric-page-bg)] p-2">
                   <p className="text-xs text-[var(--ric-text-secondary)]">Succeeded</p>
                   <p className="text-base font-semibold text-[var(--ric-text-primary)]">{agent.successful_runs}</p>
                 </div>
-                <div className="rounded-md bg-[var(--ric-page-bg)] p-2">
+                <div className="rounded-lg bg-[var(--ric-page-bg)] p-2">
                   <p className="text-xs text-[var(--ric-text-secondary)]">Failed</p>
                   <p className="text-base font-semibold text-[var(--ric-text-primary)]">{agent.failed_runs}</p>
                 </div>
@@ -122,7 +122,7 @@ export default function AgentMonitoringPage() {
               <button
                 type="button"
                 onClick={() => setSelectedAgent(agent)}
-                className="w-full rounded-md border border-[var(--ric-border)] px-3 py-1.5 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
+                className="w-full rounded-lg border border-[var(--ric-border)] px-3 py-1.5 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
               >
                 View execution log
               </button>

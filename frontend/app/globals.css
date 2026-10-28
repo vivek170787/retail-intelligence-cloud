@@ -1,27 +1,34 @@
 @import "tailwindcss";
 
 /*
- * Design tokens for Retail Intelligence Cloud: light enterprise theme --
- * light-grey page background, white cards with a restrained border, deep
- * navy/charcoal text, a restrained blue primary accent, and semantic
- * red/amber/green severity colors. No gradients, no glow effects, no
- * oversized headings.
+ * Design tokens for Retail Intelligence Cloud: premium light-blue SaaS
+ * theme (Stripe/Linear/Vercel-inspired) -- soft light-blue page background,
+ * white cards/modals with a restrained border, dark navy text, a blue
+ * primary accent, and semantic red/amber/green status colors. Gradients
+ * and the dashboard glow are intentionally restrained to a single subtle
+ * use each -- never saturated, never animated, never a dark background.
  */
 :root {
-  --ric-page-bg: #f7f8fa;
+  --ric-page-bg: #f0f7ff;
+  --ric-section-bg: #f8fbff;
   --ric-card-bg: #ffffff;
-  --ric-border: #e2e5eb;
-  --ric-text-primary: #1a2233;
-  --ric-text-secondary: #5b6472;
-  --ric-primary: #2f5fdb;
-  --ric-primary-hover: #26509f;
-  --ric-severity-critical: #d32f2f;
-  --ric-severity-high: #f57c00;
-  --ric-severity-medium: #b58900;
-  --ric-severity-low: #2e7d32;
-  --ric-severity-neutral: #6b7280;
-  --ric-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
+  --ric-border: #e2e8f0;
+  --ric-text-primary: #0f172a;
+  --ric-text-secondary: #64748b;
+  --ric-primary: #2563eb;
+  --ric-primary-hover: #1d4ed8;
+  --ric-accent-light: #dbeafe;
+  --ric-pale-highlight: #eff6ff;
+  --ric-success: #16a34a;
+  --ric-warning: #d97706;
+  --ric-error: #dc2626;
+  --ric-severity-critical: #dc2626;
+  --ric-severity-high: #d97706;
+  --ric-severity-medium: #ca8a04;
+  --ric-severity-low: #16a34a;
+  --ric-severity-neutral: #64748b;
+  --ric-font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
 @theme inline {
@@ -34,4 +41,12 @@ body {
   background: var(--ric-page-bg);
   color: var(--ric-text-primary);
   font-family: var(--ric-font-sans);
+}
+
+/* Clear, visible keyboard focus indicator across every interactive element
+   (links, buttons, inputs, tabs) -- never relies on :hover color alone. */
+*:focus-visible {
+  outline: 2px solid var(--ric-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }

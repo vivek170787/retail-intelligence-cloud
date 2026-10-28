@@ -7,7 +7,7 @@ import { Construction } from "lucide-react";
  */
 export function ComingSoonCard({ title, note }: { title: string; note: string }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-6 py-16 text-center">
+    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-6 py-16 text-center">
       <Construction className="h-8 w-8 text-[var(--ric-text-secondary)]" aria-hidden="true" />
       <h1 className="mt-4 text-lg font-semibold text-[var(--ric-text-primary)]">{title}</h1>
       <p className="mt-2 max-w-md text-sm text-[var(--ric-text-secondary)]">{note}</p>

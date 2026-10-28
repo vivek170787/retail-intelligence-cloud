@@ -30,21 +30,21 @@ export function RiskBreakdownChart({ counts }: { counts: Record<string, number> 
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} layout="vertical" margin={{ top: 4, right: 16, bottom: 4, left: 4 }}>
           <CartesianGrid horizontal={false} stroke="var(--ric-border)" />
-          <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11, fill: "#5b6472" }} axisLine={{ stroke: "#e2e5eb" }} tickLine={false} />
+          <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11, fill: "var(--ric-text-secondary)" }} axisLine={{ stroke: "var(--ric-border)" }} tickLine={false} />
           <YAxis
             type="category"
             dataKey="label"
             width={120}
-            tick={{ fontSize: 11, fill: "#5b6472" }}
-            axisLine={{ stroke: "#e2e5eb" }}
+            tick={{ fontSize: 11, fill: "var(--ric-text-secondary)" }}
+            axisLine={{ stroke: "var(--ric-border)" }}
             tickLine={false}
           />
           <Tooltip
-            cursor={{ fill: "var(--ric-page-bg)" }}
+            cursor={{ fill: "var(--ric-section-bg)" }}
             contentStyle={{
               fontSize: 12,
-              borderRadius: 6,
-              border: "1px solid #e2e5eb",
+              borderRadius: 8,
+              border: "1px solid var(--ric-border)",
               boxShadow: "none",
             }}
           />

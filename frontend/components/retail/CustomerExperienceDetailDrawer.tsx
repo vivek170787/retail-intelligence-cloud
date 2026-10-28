@@ -109,7 +109,7 @@ export function CustomerExperienceDetailDrawer({ orderId, onClose }: { orderId: 
             type="button"
             onClick={onClose}
             title="Close"
-            className="rounded-md p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
+            className="rounded-lg p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -140,7 +140,7 @@ export function CustomerExperienceDetailDrawer({ orderId, onClose }: { orderId: 
               {/* ---- Problem assessment ---- */}
               <section>
                 <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">Problem assessment</h3>
-                <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm text-[var(--ric-text-primary)]">
+                <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm text-[var(--ric-text-primary)]">
                   {report.explanation ?? "No explanation available."}
                 </div>
                 {report.missing_information && report.missing_information.length > 0 && (
@@ -155,19 +155,19 @@ export function CustomerExperienceDetailDrawer({ orderId, onClose }: { orderId: 
                 <section>
                   <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">Supporting evidence</h3>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                    <div className="rounded-md border border-[var(--ric-border)] p-3">
+                    <div className="rounded-lg border border-[var(--ric-border)] p-3">
                       <p className="text-xs text-[var(--ric-text-secondary)]">Fulfillment location</p>
                       <p className="mt-1 text-sm font-semibold text-[var(--ric-text-primary)]">
                         {report.fulfillment_location ?? "Unknown"}
                       </p>
                     </div>
-                    <div className="rounded-md border border-[var(--ric-border)] p-3">
+                    <div className="rounded-lg border border-[var(--ric-border)] p-3">
                       <p className="text-xs text-[var(--ric-text-secondary)]">Promised delivery date</p>
                       <p className="mt-1 text-sm font-semibold text-[var(--ric-text-primary)]">
                         {report.fulfillment_assessment.promised_delivery_date ?? "Not recorded"}
                       </p>
                     </div>
-                    <div className="rounded-md border border-[var(--ric-border)] p-3">
+                    <div className="rounded-lg border border-[var(--ric-border)] p-3">
                       <p className="text-xs text-[var(--ric-text-secondary)]">Inventory at location sufficient?</p>
                       <p className="mt-1 text-sm font-semibold text-[var(--ric-text-primary)]">
                         {report.fulfillment_assessment.inventory_readiness?.sufficient == null
@@ -193,7 +193,7 @@ export function CustomerExperienceDetailDrawer({ orderId, onClose }: { orderId: 
                 </h3>
                 {report.marketplace_context ? (
                   report.marketplace_context.has_marketplace_listings ? (
-                    <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                    <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                       {report.marketplace_context.any_availability_issue ? (
                         <>
                           <Badge label="Availability issue flagged" tone="warning" dot />
@@ -221,7 +221,7 @@ export function CustomerExperienceDetailDrawer({ orderId, onClose }: { orderId: 
                 <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">
                   Potential cancellation risk
                 </h3>
-                <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                   {report.potential_cancellation_risk?.flagged ? (
                     <>
                       <Badge label="Flagged for human review" tone="danger" dot />
@@ -251,7 +251,7 @@ export function CustomerExperienceDetailDrawer({ orderId, onClose }: { orderId: 
                 <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">
                   Service recovery action
                 </h3>
-                <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                   {report.human_reviewed_recovery_action?.suggested ? (
                     <Badge label="Human review may be warranted" tone="warning" dot />
                   ) : (

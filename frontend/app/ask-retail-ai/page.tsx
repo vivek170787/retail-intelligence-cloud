@@ -165,11 +165,11 @@ export default function AskRetailAiPage() {
           value={queryText}
           onChange={(e) => setQueryText(e.target.value)}
           placeholder="Or type your own retail question..."
-          className="flex-1 rounded-md border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-2 text-sm text-[var(--ric-text-primary)] outline-none focus:border-[var(--ric-primary)]"
+          className="flex-1 rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-2 text-sm text-[var(--ric-text-primary)] outline-none focus:border-[var(--ric-primary)]"
         />
         <button
           type="submit"
-          className="flex items-center gap-1.5 rounded-md bg-[var(--ric-primary)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--ric-primary-hover)]"
+          className="flex items-center gap-1.5 rounded-lg bg-[var(--ric-primary)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--ric-primary-hover)]"
         >
           <Send className="h-3.5 w-3.5" aria-hidden="true" />
           Ask
@@ -177,7 +177,7 @@ export default function AskRetailAiPage() {
       </form>
 
       {turns.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed border-[var(--ric-border)] px-6 py-10 text-center">
+        <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-[var(--ric-border)] px-6 py-10 text-center">
           <MessageSquareText className="h-6 w-6 text-[var(--ric-text-secondary)]" aria-hidden="true" />
           <p className="text-sm font-medium text-[var(--ric-text-primary)]">No questions asked yet</p>
           <p className="max-w-sm text-xs text-[var(--ric-text-secondary)]">

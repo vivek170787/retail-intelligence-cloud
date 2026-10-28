@@ -169,7 +169,7 @@ export default function InventoryPage() {
         <button
           type="button"
           onClick={() => setSelectedSku(r.sku)}
-          className="rounded-md border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
+          className="rounded-lg border border-[var(--ric-border)] px-2.5 py-1 text-xs font-medium text-[var(--ric-primary)] hover:bg-[var(--ric-page-bg)]"
         >
           View details
         </button>
@@ -198,7 +198,7 @@ export default function InventoryPage() {
             risks.refetch();
             summary.refetch();
           }}
-          className="flex items-center gap-1.5 rounded-md border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
+          className="flex items-center gap-1.5 rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-3 py-1.5 text-sm font-medium text-[var(--ric-text-primary)] hover:bg-[var(--ric-page-bg)]"
         >
           <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
           Refresh data

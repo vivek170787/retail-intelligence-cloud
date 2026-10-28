@@ -222,7 +222,7 @@ export function ReplenishmentDetailDrawer({ sku, onClose }: { sku: string; onClo
             type="button"
             onClick={onClose}
             title="Close"
-            className="rounded-md p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
+            className="rounded-lg p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -245,19 +245,19 @@ export function ReplenishmentDetailDrawer({ sku, onClose }: { sku: string; onClo
               <section>
                 <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">Current inventory</h3>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  <div className="rounded-md border border-[var(--ric-border)] p-3">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3">
                     <p className="text-xs text-[var(--ric-text-secondary)]">Available (all stores combined)</p>
                     <p className="mt-1 text-lg font-semibold text-[var(--ric-text-primary)]">
                       {analysis.observed.store_available_inventory}
                     </p>
                   </div>
-                  <div className="rounded-md border border-[var(--ric-border)] p-3">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3">
                     <p className="text-xs text-[var(--ric-text-secondary)]">Avg daily sales (7d)</p>
                     <p className="mt-1 text-lg font-semibold text-[var(--ric-text-primary)]">
                       {analysis.estimated.avg_daily_sales_7d}
                     </p>
                   </div>
-                  <div className="rounded-md border border-[var(--ric-border)] p-3">
+                  <div className="rounded-lg border border-[var(--ric-border)] p-3">
                     <p className="text-xs text-[var(--ric-text-secondary)]">Days of inventory</p>
                     <p className="mt-1 text-lg font-semibold text-[var(--ric-text-primary)]">
                       {analysis.estimated.days_of_inventory ?? "Unavailable"}
@@ -301,7 +301,7 @@ export function ReplenishmentDetailDrawer({ sku, onClose }: { sku: string; onClo
                   <EmptyState message={`Forecast unavailable: ${forecast.reason ?? "insufficient history"}.`} />
                 ) : null}
                 {compare && compare.forecast_total_demand !== null && (
-                  <div className="mt-3 rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                  <div className="mt-3 rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                     <p className="text-[var(--ric-text-primary)]">
                       Forecast vs. available inventory gap (estimate):{" "}
                       <strong>{compare.estimated_demand_gap_vs_store_available}</strong> (vs. available + inbound:{" "}
@@ -320,7 +320,7 @@ export function ReplenishmentDetailDrawer({ sku, onClose }: { sku: string; onClo
                 <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">
                   Safety stock assumptions
                 </h3>
-                <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                   <p className="text-[var(--ric-text-primary)]">
                     Not separately configured. This agent does not model a distinct safety-stock quantity --
                     instead, the suggested quantity targets a flat{" "}
@@ -377,7 +377,7 @@ export function ReplenishmentDetailDrawer({ sku, onClose }: { sku: string; onClo
                 <h3 className="mb-2 text-sm font-semibold text-[var(--ric-text-primary)]">
                   Suggested replenishment quantity
                 </h3>
-                <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                   <p className="text-[var(--ric-text-primary)]">
                     Suggested quantity:{" "}
                     <strong>{analysis.recommendation.suggested_replenishment_quantity}</strong> unit(s)
@@ -403,7 +403,7 @@ export function ReplenishmentDetailDrawer({ sku, onClose }: { sku: string; onClo
                 </ul>
               </section>
 
-              <div className="rounded-md bg-[var(--ric-page-bg)] px-3 py-2.5 text-xs text-[var(--ric-text-secondary)]">
+              <div className="rounded-lg bg-[var(--ric-page-bg)] px-3 py-2.5 text-xs text-[var(--ric-text-secondary)]">
                 This is a read-only recommendation for human review. No purchase order, stock transfer, or
                 inventory record is created or changed automatically.
               </div>

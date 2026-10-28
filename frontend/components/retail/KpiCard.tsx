@@ -10,7 +10,7 @@ export function KpiCard({
   icon?: LucideIcon;
 }) {
   return (
-    <div className="rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] p-4 shadow-sm">
+    <div className="rounded-xl border border-[var(--ric-border)] bg-[var(--ric-card-bg)] p-4 shadow-sm">
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium text-[var(--ric-text-secondary)]">{label}</p>
         {Icon && <Icon className="h-4 w-4 text-[var(--ric-text-secondary)]" aria-hidden="true" />}

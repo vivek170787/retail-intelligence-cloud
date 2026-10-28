@@ -81,10 +81,10 @@ export function DataTable<T>({
 
   if (loading) {
     return (
-      <div className="overflow-hidden rounded-md border border-[var(--ric-border)]">
+      <div className="overflow-hidden rounded-lg border border-[var(--ric-border)]">
         <div className="animate-pulse divide-y divide-[var(--ric-border)]">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-9 bg-[var(--ric-page-bg)]" />
+            <div key={i} className="h-9 bg-[var(--ric-section-bg)]" />
           ))}
         </div>
       </div>
@@ -96,10 +96,10 @@ export function DataTable<T>({
   }
 
   return (
-    <div className="overflow-x-auto rounded-md border border-[var(--ric-border)]">
+    <div className="overflow-x-auto rounded-lg border border-[var(--ric-border)]">
       <table className="w-full border-collapse text-sm">
         <thead>
-          <tr className="bg-[var(--ric-page-bg)]">
+          <tr className="bg-[var(--ric-section-bg)]">
             {columns.map((column) => (
               <th
                 key={column.key}
@@ -134,7 +134,7 @@ export function DataTable<T>({
         </thead>
         <tbody className="divide-y divide-[var(--ric-border)]">
           {sortedRows.map((row) => (
-            <tr key={rowKey(row)} className="hover:bg-[var(--ric-page-bg)]">
+            <tr key={rowKey(row)} className="hover:bg-[var(--ric-section-bg)]">
               {columns.map((column) => (
                 <td
                   key={column.key}

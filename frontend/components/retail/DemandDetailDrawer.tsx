@@ -142,7 +142,7 @@ export function DemandDetailDrawer({
             type="button"
             onClick={onClose}
             title="Close"
-            className="rounded-md p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
+            className="rounded-lg p-1.5 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)]"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -193,7 +193,7 @@ export function DemandDetailDrawer({
                 {trendPoints.length > 0 && <DemandTrendChart points={trendPoints} />}
 
                 {forecast.sufficient_data && (
-                  <div className="mt-2 rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                  <div className="mt-2 rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                     <p className="text-[var(--ric-text-primary)]">
                       Forecast total, next {forecast.horizon_days} day(s) (<strong>estimate</strong>):{" "}
                       <strong>{forecast.total_forecast_demand}</strong>
@@ -236,7 +236,7 @@ export function DemandDetailDrawer({
                     Forecast vs. current inventory
                   </h3>
                   {compare.forecast_total_demand !== null ? (
-                    <div className="rounded-md border border-[var(--ric-border)] p-3 text-sm">
+                    <div className="rounded-lg border border-[var(--ric-border)] p-3 text-sm">
                       <p className="text-[var(--ric-text-primary)]">
                         Estimated demand gap vs. available inventory (all stores combined):{" "}
                         <strong>{compare.estimated_demand_gap_vs_store_available}</strong> (vs. available + inbound:{" "}
