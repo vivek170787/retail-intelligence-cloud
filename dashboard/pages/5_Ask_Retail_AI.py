@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from dashboard.data_prep import run_retail_query
 from dashboard.state import get_orchestrator
-from dashboard.ui_components import data_gaps_panel, disclaimer_footer, empty_state, error_state, severity_badge
+from dashboard.ui_components import data_gaps_panel, disclaimer_footer, empty_state, error_state, evidence_panel, severity_badge
 
 st.set_page_config(page_title="Ask Retail AI", page_icon="🤖", layout="wide")
 st.title("🤖 Ask Retail AI")
@@ -83,8 +83,7 @@ if query_text:
 
         data_gaps_panel(result["data_gaps_and_uncertainty"])
 
-        with st.expander("Supporting evidence (raw)"):
-            st.json(result["evidence"])
+        evidence_panel(result["evidence"], title="Supporting evidence")
 
         st.caption(f"Agents consulted: {', '.join(result['agents_used']) or 'none'}")
 

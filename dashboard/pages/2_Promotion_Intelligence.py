@@ -16,7 +16,7 @@ from dashboard.data_prep import (
     flatten_readiness_report,
 )
 from dashboard.state import get_orchestrator
-from dashboard.ui_components import csv_download_button, empty_state, error_state, severity_label
+from dashboard.ui_components import csv_download_button, empty_state, error_state, render_evidence, severity_label
 
 st.set_page_config(page_title="Promotion Intelligence", page_icon="🏷️", layout="wide")
 st.title("🏷️ Promotion Intelligence")
@@ -62,10 +62,10 @@ else:
                 f"gap of {row['demand_gap']} units -- {severity_label(row['readiness_status'])}"
             )
 
-    with st.expander("Supporting evidence and assumptions (raw)"):
+    with st.expander("Supporting evidence and assumptions"):
         for r in report["reports"]:
             st.markdown(f"**{r['sku']} / {r['promotion_id']}**")
-            st.json(r)
+            render_evidence(r)
 
 st.divider()
 st.subheader("Potential Demand Spikes")
