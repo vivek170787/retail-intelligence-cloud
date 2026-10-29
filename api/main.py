@@ -16,10 +16,14 @@ import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
+from agent_evaluation.eval_log import init_db as init_eval_db
+from agent_feedback.store import init_db as init_feedback_db
 from agent_monitoring.execution_log import init_db, record_execution
 from agent_monitoring.registry import agent_key_for_path
 from api.errors import install_error_handlers
 from api.routers import (
+    agent_evaluation,
+    agent_feedback,
     agent_monitoring,
     customer_experience,
     dashboard,
@@ -80,6 +84,8 @@ async def log_agent_executions(request: Request, call_next):
 
 install_error_handlers(app)
 init_db()
+init_eval_db()
+init_feedback_db()
 
 app.include_router(health.router, prefix="/api/v1")
 app.include_router(dashboard.router, prefix="/api/v1")
@@ -90,5 +96,7 @@ app.include_router(fulfillment.router, prefix="/api/v1")
 app.include_router(customer_experience.router, prefix="/api/v1")
 app.include_router(retail_ai.router, prefix="/api/v1")
 app.include_router(agent_monitoring.router, prefix="/api/v1")
+app.include_router(agent_evaluation.router, prefix="/api/v1")
+app.include_router(agent_feedback.router, prefix="/api/v1")
 app.include_router(data_quality.router, prefix="/api/v1")
 app.include_router(data_sources.router, prefix="/api/v1")

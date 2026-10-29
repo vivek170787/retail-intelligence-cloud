@@ -748,3 +748,118 @@ export interface DataSourcesOverview {
   planned_integrations: PlannedIntegration[];
   note: string;
 }
+
+// Raw agent_evaluation/test_cases.py entry (GET /agent-evaluation/test-cases)
+// -- hardcoded, static test questions, same convention as
+// agent_monitoring/registry.py's AGENT_REGISTRY.
+export interface EvaluationTestCase {
+  id: string;
+  agent_key: string;
+  question: string;
+  expected_evidence_keys: string[];
+  answer_keywords_any: string[];
+}
+
+// Raw agent_evaluation/eval_log.py row (GET /agent-evaluation/results) --
+// every row is a REAL evaluation of a real test case against a real agent
+// answer. judge_* fields are null when judged is 0 (no OPENAI_API_KEY
+// configured, no answer was generated, or the judge call itself failed).
+export interface EvaluationResultRow {
+  id: number;
+  run_id: string;
+  agent_key: string;
+  test_case_id: string;
+  question: string;
+  status: "checked" | "skipped_no_answer";
+  evidence_passed: 0 | 1;
+  missing_evidence_keys: string[];
+  keyword_passed: 0 | 1;
+  passed: 0 | 1;
+  judged: 0 | 1;
+  judge_groundedness: number | null;
+  judge_relevance: number | null;
+  judge_clarity: number | null;
+  judge_overall: number | null;
+  judge_rationale: string | null;
+  judge_error: string | null;
+  ran_at: string;
+}
+
+// Raw GET /agent-evaluation/summary item -- static registry metadata
+// combined with real aggregate stats computed from eval_log. avg_judge_overall
+// is null, not 0, when no judged rows exist yet.
+export interface EvaluationSummaryRow {
+  agent_key: string;
+  agent_name: string;
+  total_runs: number;
+  passed: number;
+  failed: number;
+  skipped_no_answer: number;
+  avg_judge_overall: number | null;
+  last_run_at: string | null;
+}
+
+// Raw agent_feedback/retuning.py maybe_retune()/force_retune() result --
+// returned both from POST /agent-feedback/retune/{agent_key} and nested in
+// POST /agent-feedback's `retuned` list when a submission crosses the
+// negative-feedback threshold.
+export interface RetuneResult {
+  retuned: boolean;
+  agent_key: string;
+  reason?: string;
+  uncounted_negative_count?: number;
+  adjustment_id?: number;
+  adjustment_text?: string;
+  trigger_feedback_count?: number;
+  forced?: boolean;
+}
+
+export interface FeedbackSubmissionRequest {
+  agent_keys: string[];
+  query: string;
+  answer?: string | null;
+  rating: "up" | "down";
+  comment?: string | null;
+}
+
+export interface FeedbackSubmissionResponse {
+  agent_keys: string[];
+  feedback_ids: number[];
+  retuned: RetuneResult[];
+}
+
+// Raw agent_feedback/store.py feedback row (GET /agent-feedback) -- every
+// row is a real thumbs up/down submission, fanned out to one row per
+// contributing agent_key. counted_in_adjustment_id is set once this row has
+// been counted toward a triggered prompt adjustment (never double-counted).
+export interface FeedbackRecord {
+  id: number;
+  agent_key: string;
+  query: string;
+  answer_snippet: string | null;
+  rating: "up" | "down";
+  comment: string | null;
+  submitted_at: string;
+  counted_in_adjustment_id: number | null;
+}
+
+// Raw GET /agent-feedback/summary item.
+export interface FeedbackSummaryRow {
+  agent_key: string;
+  agent_name: string;
+  total: number;
+  up_count: number;
+  down_count: number;
+  active_adjustment: string | null;
+}
+
+// Raw agent_feedback/store.py prompt_adjustments row (GET
+// /agent-feedback/adjustments) -- one row per automatic (or manually
+// forced) prompt adjustment the AI feedback loop has made.
+export interface PromptAdjustmentRecord {
+  id: number;
+  agent_key: string;
+  adjustment_text: string;
+  created_at: string;
+  trigger_feedback_count: number;
+}

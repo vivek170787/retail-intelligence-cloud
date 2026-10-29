@@ -25,7 +25,7 @@
 import { useRef, useState } from "react";
 import { MessageSquareText, Send, Trash2 } from "lucide-react";
 
-import { ApiError, getDashboardSummary, getRetailAiStatus, postRetailAiQuery } from "@/lib/api";
+import { ApiError, getDashboardSummary, getRetailAiStatus, postRetailAiQuery, submitFeedback } from "@/lib/api";
 import { useApi } from "@/lib/useApi";
 import type { RetailAiQueryResponse } from "@/lib/types";
 import { Badge } from "@/components/ui/Badge";
@@ -53,6 +53,7 @@ interface ConversationTurn {
   response: RetailAiQueryResponse | null;
   error: string | null;
   loading: boolean;
+  feedbackSubmitted: "up" | "down" | null;
 }
 
 export default function AskRetailAiPage() {
@@ -69,7 +70,10 @@ export default function AskRetailAiPage() {
 
     nextTurnId.current += 1;
     const id = `turn-${nextTurnId.current}`;
-    setTurns((prev) => [{ id, query: trimmed, response: null, error: null, loading: true }, ...prev]);
+    setTurns((prev) => [
+      { id, query: trimmed, response: null, error: null, loading: true, feedbackSubmitted: null },
+      ...prev,
+    ]);
     setQueryText("");
 
     try {
@@ -78,6 +82,27 @@ export default function AskRetailAiPage() {
     } catch (err) {
       const message = err instanceof ApiError ? err.message : "An unexpected error occurred.";
       setTurns((prev) => prev.map((t) => (t.id === id ? { ...t, error: message, loading: false } : t)));
+    }
+  }
+
+  async function handleSubmitFeedback(
+    turnId: string,
+    response: RetailAiQueryResponse,
+    rating: "up" | "down",
+    comment?: string
+  ) {
+    try {
+      await submitFeedback({
+        agent_keys: response.agents_used.length > 0 ? response.agents_used : ["orchestrator"],
+        query: response.query,
+        answer: response.ai_narration.answer,
+        rating,
+        comment,
+      });
+      setTurns((prev) => prev.map((t) => (t.id === turnId ? { ...t, feedbackSubmitted: rating } : t)));
+    } catch {
+      // Feedback is a secondary action -- a failed submission should never
+      // disrupt the already-displayed answer. The user can simply retry.
     }
   }
 
@@ -208,7 +233,15 @@ export default function AskRetailAiPage() {
               </p>
               {turn.loading && <LoadingState message="Routing your question through the orchestrator..." />}
               {turn.error && <ErrorState message={turn.error} />}
-              {turn.response && <RetailAiAnswerCard response={turn.response} />}
+              {turn.response && (
+                <RetailAiAnswerCard
+                  response={turn.response}
+                  feedbackSubmitted={turn.feedbackSubmitted}
+                  onSubmitFeedback={(rating, comment) =>
+                    void handleSubmitFeedback(turn.id, turn.response as RetailAiQueryResponse, rating, comment)
+                  }
+                />
+              )}
             </div>
           ))}
         </div>

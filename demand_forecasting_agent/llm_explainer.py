@@ -16,8 +16,11 @@ answer_question() still gathers and returns the deterministic evidence.
 import json
 import re
 
+from agent_feedback.store import get_active_adjustment
 from demand_forecasting_agent.forecasting_engine import DemandForecastEngine
 from openai_config import get_openai_client, get_openai_model, is_configured
+
+AGENT_KEY = "demand"
 
 _default_engine = DemandForecastEngine()
 
@@ -29,7 +32,7 @@ _DECLINE_TERMS = ("declin", "drop", "falling", "slowdown", "decreas")
 _TOP_TERMS = ("top", "highest", "most demand", "biggest demand")
 _INVESTIGATE_TERMS = ("investigate", "planner", "priorit", "focus on", "look into")
 
-SYSTEM_PROMPT = """\
+_BASE_SYSTEM_PROMPT = """\
 You are a demand forecasting assistant for an omnichannel retail platform. \
 All data is synthetic test data generated for development.
 
@@ -54,6 +57,16 @@ automatic action.
 insufficient_data/insufficient_history, say so plainly rather than guessing.
 - Keep the answer concise: a few sentences, plus a short list if helpful.
 """
+
+
+def _system_prompt():
+    """_BASE_SYSTEM_PROMPT, plus the most recent AI-feedback-loop prompt
+    adjustment for this agent (agent_feedback/retuning.py), if one has
+    been triggered by accumulated negative user feedback."""
+    adjustment = get_active_adjustment(AGENT_KEY)
+    if not adjustment:
+        return _BASE_SYSTEM_PROMPT
+    return f"{_BASE_SYSTEM_PROMPT}\n{adjustment}\n"
 
 
 def _gather_evidence(question, engine):
@@ -115,25 +128,32 @@ def answer_question(question, engine=None):
             ),
         }
 
-    client = get_openai_client()
-    model = get_openai_model()
-
-    response = client.chat.completions.create(
-        model=model,
-        temperature=0,
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {
-                "role": "user",
-                "content": f"Question: {question}\n\nEvidence (JSON):\n{json.dumps(evidence, indent=2, default=str)}",
-            },
-        ],
-    )
-
-    return {
-        "configured": True,
-        "question": question,
-        "evidence": evidence,
-        "answer": response.choices[0].message.content,
-        "message": None,
-    }
+    try:
+        client = get_openai_client()
+        model = get_openai_model()
+        response = client.chat.completions.create(
+            model=model,
+            temperature=0,
+            messages=[
+                {"role": "system", "content": _system_prompt()},
+                {
+                    "role": "user",
+                    "content": f"Question: {question}\n\nEvidence (JSON):\n{json.dumps(evidence, indent=2, default=str)}",
+                },
+            ],
+        )
+        return {
+            "configured": True,
+            "question": question,
+            "evidence": evidence,
+            "answer": response.choices[0].message.content,
+            "message": None,
+        }
+    except Exception as exc:
+        return {
+            "configured": True,
+            "question": question,
+            "evidence": evidence,
+            "answer": None,
+            "message": f"Natural-language explanation failed ({type(exc).__name__}); showing the deterministic evidence only.",
+        }

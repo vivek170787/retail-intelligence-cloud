@@ -20,6 +20,13 @@ import type {
   DemandChangeItem,
   DemandForecastResult,
   DemandSummaryReport,
+  EvaluationResultRow,
+  EvaluationSummaryRow,
+  EvaluationTestCase,
+  FeedbackRecord,
+  FeedbackSubmissionRequest,
+  FeedbackSubmissionResponse,
+  FeedbackSummaryRow,
   FulfillmentPriorityItem,
   FulfillmentRiskSummary,
   InventoryRiskItem,
@@ -27,9 +34,11 @@ import type {
   PromotionalDemandSummary,
   PromotionReadinessItem,
   PromotionReadinessReport,
+  PromptAdjustmentRecord,
   RetailAiQueryRequest,
   RetailAiQueryResponse,
   RetailAiStatus,
+  RetuneResult,
   SalesTrendResponse,
   ServiceRecoveryRecommendations,
   SkuPromotionAnalysis,
@@ -251,4 +260,47 @@ export function getDataQualityReport(): Promise<DataQualityReport> {
 
 export function getDataSourcesOverview(): Promise<DataSourcesOverview> {
   return request<DataSourcesOverview>(`/data-sources/overview`);
+}
+
+export function getEvaluationTestCases(): Promise<EvaluationTestCase[]> {
+  return request<EvaluationTestCase[]>(`/agent-evaluation/test-cases`);
+}
+
+export function runEvaluations(agentKey?: string): Promise<EvaluationResultRow[]> {
+  const query = agentKey ? `?agent_key=${encodeURIComponent(agentKey)}` : "";
+  return request<EvaluationResultRow[]>(`/agent-evaluation/run${query}`, { method: "POST" });
+}
+
+export function getEvaluationResults(agentKey?: string, limit = 100): Promise<EvaluationResultRow[]> {
+  const agentParam = agentKey ? `&agent_key=${encodeURIComponent(agentKey)}` : "";
+  return request<EvaluationResultRow[]>(`/agent-evaluation/results?limit=${limit}${agentParam}`);
+}
+
+export function getEvaluationSummary(): Promise<EvaluationSummaryRow[]> {
+  return request<EvaluationSummaryRow[]>(`/agent-evaluation/summary`);
+}
+
+export function submitFeedback(body: FeedbackSubmissionRequest): Promise<FeedbackSubmissionResponse> {
+  return request<FeedbackSubmissionResponse>(`/agent-feedback/`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+}
+
+export function getFeedbackSummary(): Promise<FeedbackSummaryRow[]> {
+  return request<FeedbackSummaryRow[]>(`/agent-feedback/summary`);
+}
+
+export function getFeedback(agentKey?: string, limit = 50): Promise<FeedbackRecord[]> {
+  const agentParam = agentKey ? `&agent_key=${encodeURIComponent(agentKey)}` : "";
+  return request<FeedbackRecord[]>(`/agent-feedback/?limit=${limit}${agentParam}`);
+}
+
+export function getPromptAdjustments(agentKey?: string, limit = 50): Promise<PromptAdjustmentRecord[]> {
+  const agentParam = agentKey ? `&agent_key=${encodeURIComponent(agentKey)}` : "";
+  return request<PromptAdjustmentRecord[]>(`/agent-feedback/adjustments?limit=${limit}${agentParam}`);
+}
+
+export function forceRetune(agentKey: string): Promise<RetuneResult> {
+  return request<RetuneResult>(`/agent-feedback/retune/${encodeURIComponent(agentKey)}`, { method: "POST" });
 }

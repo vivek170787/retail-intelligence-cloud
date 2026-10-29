@@ -17,15 +17,18 @@ deterministic evidence, per requirement 8.
 import json
 import re
 
+from agent_feedback.store import get_active_adjustment
 from orchestration.service import RetailOrchestrationService
 from openai_config import get_openai_client, get_openai_model, is_configured
+
+AGENT_KEY = "orchestrator"
 
 _default_service = RetailOrchestrationService()
 
 _SKU_PATTERN = re.compile(r"SKU-[A-Z]{3}-\d{4}", re.IGNORECASE)
 _STORE_PATTERN = re.compile(r"ST-\d{3}", re.IGNORECASE)
 
-SYSTEM_PROMPT = """\
+_BASE_SYSTEM_PROMPT = """\
 You are a supply-planning assistant for an omnichannel retail platform, \
 explaining a combined inventory-vs-forecast comparison. All data is \
 synthetic test data generated for development.
@@ -46,6 +49,16 @@ replenishment decision or an action already taken.
 say so plainly instead of guessing a value.
 - Keep the answer concise: a few sentences, plus a short list if helpful.
 """
+
+
+def _system_prompt():
+    """_BASE_SYSTEM_PROMPT, plus the most recent AI-feedback-loop prompt
+    adjustment for this agent (agent_feedback/retuning.py), if one has
+    been triggered by accumulated negative user feedback."""
+    adjustment = get_active_adjustment(AGENT_KEY)
+    if not adjustment:
+        return _BASE_SYSTEM_PROMPT
+    return f"{_BASE_SYSTEM_PROMPT}\n{adjustment}\n"
 
 
 def _gather_evidence(question, service):
@@ -91,31 +104,38 @@ def answer_question(question, service=None):
             ),
         }
 
-    client = get_openai_client()
-    model = get_openai_model()
+    try:
+        client = get_openai_client()
+        model = get_openai_model()
+        response = client.chat.completions.create(
+            model=model,
+            temperature=0,
+            messages=[
+                {"role": "system", "content": _system_prompt()},
+                {
+                    "role": "user",
+                    "content": f"Question: {question}\n\nEvidence (JSON):\n{json.dumps(evidence, indent=2, default=str)}",
+                },
+            ],
+        )
+        return {
+            "configured": True,
+            "question": question,
+            "evidence": evidence,
+            "answer": response.choices[0].message.content,
+            "message": None,
+        }
+    except Exception as exc:
+        return {
+            "configured": True,
+            "question": question,
+            "evidence": evidence,
+            "answer": None,
+            "message": f"Natural-language explanation failed ({type(exc).__name__}); showing the deterministic evidence only.",
+        }
 
-    response = client.chat.completions.create(
-        model=model,
-        temperature=0,
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {
-                "role": "user",
-                "content": f"Question: {question}\n\nEvidence (JSON):\n{json.dumps(evidence, indent=2, default=str)}",
-            },
-        ],
-    )
 
-    return {
-        "configured": True,
-        "question": question,
-        "evidence": evidence,
-        "answer": response.choices[0].message.content,
-        "message": None,
-    }
-
-
-RESULT_NARRATION_SYSTEM_PROMPT = """\
+_BASE_RESULT_NARRATION_SYSTEM_PROMPT = """\
 You are a retail operations assistant narrating an already-computed \
 structured result from the Retail Intelligence Orchestrator. All data is \
 synthetic test data generated for development.
@@ -138,6 +158,20 @@ could not be determined -- do not paper over it.
 never phrase anything as already done or as something you will do.
 - Keep it concise. Do not repeat the raw JSON back verbatim.
 """
+
+
+def _result_narration_system_prompt():
+    """_BASE_RESULT_NARRATION_SYSTEM_PROMPT, plus the most recent
+    AI-feedback-loop prompt adjustment for this agent (agent_feedback/
+    retuning.py), if one has been triggered by accumulated negative user
+    feedback. This is the prompt actually used by POST /retail-ai/query --
+    the only live HTTP path that produces an LLM narration today -- so a
+    retune here is the one observable end-to-end by re-asking a question
+    on the Ask Retail AI page."""
+    adjustment = get_active_adjustment(AGENT_KEY)
+    if not adjustment:
+        return _BASE_RESULT_NARRATION_SYSTEM_PROMPT
+    return f"{_BASE_RESULT_NARRATION_SYSTEM_PROMPT}\n{adjustment}\n"
 
 
 def narrate_orchestrator_result(question, result):
@@ -168,7 +202,7 @@ def narrate_orchestrator_result(question, result):
             model=model,
             temperature=0,
             messages=[
-                {"role": "system", "content": RESULT_NARRATION_SYSTEM_PROMPT},
+                {"role": "system", "content": _result_narration_system_prompt()},
                 {
                     "role": "user",
                     "content": f"Question: {question}\n\nResult (JSON):\n{json.dumps(result, indent=2, default=str)}",

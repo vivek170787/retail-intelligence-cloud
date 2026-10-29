@@ -15,7 +15,8 @@
  * categories without category-specific guessing.
  */
 
-import { Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Sparkles, ThumbsDown, ThumbsUp } from "lucide-react";
 
 import type { RetailAiQueryResponse } from "@/lib/types";
 import { Card, CardBody, CardHeader } from "@/components/retail/Card";
@@ -27,11 +28,32 @@ import { SeverityBadge } from "@/components/retail/SeverityBadge";
 import { StatusBadge } from "@/components/retail/StatusBadge";
 import { DataTable } from "@/components/ui/DataTable";
 
-export function RetailAiAnswerCard({ response }: { response: RetailAiQueryResponse }) {
+export function RetailAiAnswerCard({
+  response,
+  feedbackSubmitted,
+  onSubmitFeedback,
+}: {
+  response: RetailAiQueryResponse;
+  /** Which rating (if any) has already been submitted for this answer --
+   * this card never re-submits once set, so a thumbs up/down click is
+   * recorded exactly once per answer. */
+  feedbackSubmitted?: "up" | "down" | null;
+  /** Fans this out to the agent_key(s) that produced the answer
+   * (response.agents_used) -- see agent_feedback/store.py::submit_feedback. */
+  onSubmitFeedback?: (rating: "up" | "down", comment?: string) => void;
+}) {
   const affectedCount =
     response.affected_entities.skus.length +
     response.affected_entities.stores.length +
     response.affected_entities.orders.length;
+
+  const [showCommentBox, setShowCommentBox] = useState(false);
+  const [comment, setComment] = useState("");
+
+  function submit(rating: "up" | "down") {
+    onSubmitFeedback?.(rating, comment.trim() || undefined);
+    setShowCommentBox(false);
+  }
 
   return (
     <Card>
@@ -57,6 +79,55 @@ export function RetailAiAnswerCard({ response }: { response: RetailAiQueryRespon
               AI narration (narrates the structured result below -- never computes new numbers)
             </div>
             <p className="text-sm text-[var(--ric-text-primary)]">{response.ai_narration.answer}</p>
+
+            {onSubmitFeedback && (
+              <div className="mt-2 flex items-center gap-2 border-t border-[var(--ric-border)] pt-2">
+                {feedbackSubmitted ? (
+                  <p className="text-xs text-[var(--ric-text-secondary)]">
+                    Thanks for your feedback ({feedbackSubmitted === "up" ? "helpful" : "not helpful"}).
+                  </p>
+                ) : (
+                  <>
+                    <span className="text-xs text-[var(--ric-text-secondary)]">Was this helpful?</span>
+                    <button
+                      type="button"
+                      onClick={() => submit("up")}
+                      aria-label="Thumbs up"
+                      className="rounded-md p-1 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)] hover:text-emerald-600"
+                    >
+                      <ThumbsUp className="h-3.5 w-3.5" aria-hidden="true" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowCommentBox((v) => !v)}
+                      aria-label="Thumbs down"
+                      className="rounded-md p-1 text-[var(--ric-text-secondary)] hover:bg-[var(--ric-page-bg)] hover:text-red-600"
+                    >
+                      <ThumbsDown className="h-3.5 w-3.5" aria-hidden="true" />
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+
+            {!feedbackSubmitted && showCommentBox && (
+              <div className="mt-2 flex items-center gap-2">
+                <input
+                  type="text"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="What went wrong? (optional)"
+                  className="flex-1 rounded-lg border border-[var(--ric-border)] bg-[var(--ric-card-bg)] px-2.5 py-1.5 text-xs text-[var(--ric-text-primary)] outline-none focus:border-[var(--ric-primary)]"
+                />
+                <button
+                  type="button"
+                  onClick={() => submit("down")}
+                  className="rounded-lg bg-[var(--ric-primary)] px-2.5 py-1.5 text-xs font-medium text-white hover:bg-[var(--ric-primary-hover)]"
+                >
+                  Submit
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <p className="text-xs text-[var(--ric-text-secondary)]">
